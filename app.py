@@ -6,6 +6,8 @@ import os
 
 app = Flask(__name__)
 
+# ✅ FIX FOR LINUX (Render / Docker)
+pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
 
 # ---------------- DATABASE ----------------
 def init_db():
@@ -54,7 +56,7 @@ def home():
     solution = "Upload image to detect error"
     category = ""
 
-    # IMAGE PROCESS
+    # IMAGE PROCESS (SAFE VERSION)
     if request.method == "POST" and "image" in request.files:
         file = request.files.get("image")
 
@@ -62,18 +64,25 @@ def home():
             path = "temp.png"
             file.save(path)
 
-            img = Image.open(path)
-            text = pytesseract.image_to_string(img, config="--psm 6")
-            low = text.lower()
+            try:
+                img = Image.open(path)
+                text = pytesseract.image_to_string(img, config="--psm 6")
+                low = text.lower()
 
-            for k, v in error_database.items():
-                if k in low:
-                    solution = v
-                    category = k
-                    break
+                for k, v in error_database.items():
+                    if k in low:
+                        solution = v
+                        category = k
+                        break
 
-            if os.path.exists(path):
-                os.remove(path)
+            except Exception as e:
+                text = "OCR failed"
+                solution = "Tesseract error on server"
+                print("OCR ERROR:", e)
+
+            finally:
+                if os.path.exists(path):
+                    os.remove(path)
 
     # FEEDBACK SAVE
     if request.method == "POST" and "feedback_text" in request.form:
