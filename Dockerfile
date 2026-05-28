@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.10-slim
 
 WORKDIR /app
 
@@ -6,15 +6,11 @@ COPY . .
 
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
-    libgl1 \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender1 \
-    libjpeg-dev \
-    zlib1g-dev
+    && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+
+ENV TESSERACT_CMD=/usr/bin/tesseract
 
 CMD ["gunicorn", "app:app"]

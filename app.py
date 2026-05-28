@@ -40,11 +40,15 @@ def get_feedback():
 
 # ---------------- ERROR DATABASE ----------------
 error_database = {
-    "vcruntime": "Install Visual C++ Redistributable",
-    "msvcp": "Reinstall Visual C++ Redistributable",
-    "d3dx": "Install DirectX Runtime",
-    "dll": "Run SFC /scannow",
-    "0xc000007b": "Install VC++ + DirectX"
+    "vcruntime": "Install Microsoft Visual C++ Redistributable (2015–2022)",
+    "msvcp": "Install Microsoft Visual C++ Redistributable (all versions)",
+    "msvcr": "Install Microsoft Visual C++ Redistributable",
+    "d3dx": "Install DirectX End-User Runtime",
+    "xinput": "Install DirectX Runtime",
+    "dll not found": "Reinstall the software or install required Visual C++ + DirectX packages",
+    "0xc000007b": "Reinstall Visual C++ Redistributable + DirectX + restart system",
+    "api-ms-win": "Install latest Visual C++ Redistributable (2015–2022)",
+    "side-by-side": "Run SFC /scannow and reinstall Visual C++ Redistributable"
 }
 
 # ---------------- HOME ROUTE ----------------
@@ -67,22 +71,26 @@ def home():
                     import pytesseract
                     from PIL import Image
 
-
                     img = Image.open(path)
                     text = pytesseract.image_to_string(img, config="--psm 6")
 
-                    low = text.lower()
+                    low = text.lower().strip()
 
-                    found = False
-                    for k, v in error_database.items():
-                        if k in low:
-                            solution = v
-                            category = k
-                            found = True
-                            break
+                    # ---------------- IMAGE QUALITY CHECK ----------------
+                    if len(low) < 5:
+                        solution = "Image is not clear. Please upload a clearer screenshot."
+                    else:
+                        found = False
 
-                    if not found:
-                        solution = "No known error detected"
+                        for k, v in error_database.items():
+                            if k in low:
+                                solution = v
+                                category = k
+                                found = True
+                                break
+
+                        if not found:
+                            solution = "No known DLL error detected. Try clearer image or full error text."
 
                 else:
                     text = "OCR is turned off"
