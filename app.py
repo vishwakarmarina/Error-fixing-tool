@@ -67,7 +67,6 @@ def home():
                     import pytesseract
                     from PIL import Image
 
-                    pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
 
                     img = Image.open(path)
                     text = pytesseract.image_to_string(img, config="--psm 6")
