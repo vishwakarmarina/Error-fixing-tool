@@ -47,6 +47,7 @@ error_database = {
     "0xc000007b": "Install VC++ + DirectX"
 }
 
+# ---------------- HOME ROUTE ----------------
 @app.route("/", methods=["GET", "POST"])
 def home():
 
@@ -54,7 +55,6 @@ def home():
     solution = "Upload image to detect error"
     category = ""
 
-    # ---------------- IMAGE PROCESS ----------------
     if request.method == "POST" and "image" in request.files:
         file = request.files.get("image")
 
@@ -67,7 +67,6 @@ def home():
                     import pytesseract
                     from PIL import Image
 
-                    # Linux / Render path
                     pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
 
                     img = Image.open(path)
@@ -88,7 +87,7 @@ def home():
 
                 else:
                     text = "OCR is turned off"
-                    solution = "Enable OCR_ENABLED = True to activate"
+                    solution = "Enable OCR_ENABLED = True"
 
             except Exception as e:
                 text = "OCR processing failed"
@@ -99,7 +98,6 @@ def home():
                 if os.path.exists(path):
                     os.remove(path)
 
-    # ---------------- FEEDBACK SAVE ----------------
     if request.method == "POST" and "feedback_text" in request.form:
         save_feedback(
             request.form.get("feedback_type"),
@@ -117,5 +115,27 @@ def home():
         feedbacks=feedbacks
     )
 
+# ---------------- CHECK ROUTE ----------------
+@app.route("/check")
+def check():
+    try:
+        path = os.popen("which tesseract").read().strip()
+        version = os.popen("tesseract --version").read().strip()
+
+        if not path:
+            return "Tesseract NOT FOUND in PATH"
+
+        return f"""
+Tesseract Path:
+{path}
+
+Tesseract Version:
+{version}
+"""
+
+    except Exception as e:
+        return f"Error checking tesseract: {str(e)}"
+
+# ---------------- RUN APP ----------------
 if __name__ == "__main__":
     app.run(debug=True)
