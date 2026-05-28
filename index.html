@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JOY — AI Error Fixer Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap');
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier Prime', monospace;
+            background: #0d0d0d;
+            color: #d4cfc7;
+            animation: fadeIn 0.8s ease-in;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* ✅ BRAND BAR */
+        .brand-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 24px;
+            border-bottom: 1px solid #1e1e1e;
+            background: #080808;
+        }
+
+        .brand-name {
+            font-family: 'Special Elite', cursive;
+            font-size: 32px;
+            color: #f0ece4;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            cursor: default;
+            transition: letter-spacing 0.4s ease, color 0.3s ease;
+        }
+
+        .brand-name:hover {
+            letter-spacing: 18px;
+            color: #ffffff;
+        }
+
+        .brand-tagline {
+            font-family: 'Courier Prime', monospace;
+            font-size: 11px;
+            color: #444;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-align: right;
+            transition: color 0.3s ease;
+            cursor: default;
+        }
+
+        .brand-tagline:hover { color: #888; }
+
+        .brand-divider {
+            color: #2a2a2a;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #f0ece4;
+            padding: 22px 20px;
+            margin: 0;
+            font-size: 34px;
+            font-family: 'Special Elite', cursive;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #3a3a3a;
+            animation: slideDown 0.6s ease-out;
+            transition: letter-spacing 0.4s ease, color 0.3s ease;
+            cursor: default;
+            width: 100%;
+        }
+
+        h1:hover { letter-spacing: 10px; color: #ffffff; }
+
+        h1::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 2px;
+            background: #f0ece4;
+            margin: 8px auto 0;
+            transition: width 0.4s ease;
+        }
+
+        h1:hover::after { width: 200px; }
+
+        .container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 18px;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 18px;
+        }
+
+        /* ✅ SCROLL FADE */
+        .card {
+            background: #111;
+            border: 1px solid #2e2e2e;
+            border-radius: 0;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-left: 3px solid #888;
+            width: 100%;
+            opacity: 0;
+            translate: 0 50px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease,
+                        border-left-color 0.3s ease, background 0.3s ease,
+                        opacity 0.75s ease, translate 0.75s ease;
+        }
+
+        .card.visible { opacity: 1; translate: 0 0; }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 6px 6px 0px #2a2a2a;
+            border-left-color: #f0ece4;
+            background: #151515;
+        }
+
+        .right-col .card { translate: 50px 0; }
+        .right-col .card.visible { translate: 0 0; }
+
+        .left-col .card:nth-child(1) { transition-delay: 0s; }
+        .left-col .card:nth-child(2) { transition-delay: 0.07s; }
+        .left-col .card:nth-child(3) { transition-delay: 0.12s; }
+        .left-col .card:nth-child(4) { transition-delay: 0.07s; }
+        .left-col .card:nth-child(5) { transition-delay: 0.07s; }
+        .left-col .card:nth-child(6) { transition-delay: 0.07s; }
+        .left-col .card:nth-child(7) { transition-delay: 0.07s; }
+
+        input[type=file] {
+            color: #aaa;
+            width: 100%;
+            font-family: 'Courier Prime', monospace;
+            margin-bottom: 6px;
+        }
+
+        input[type=submit], button {
+            display: inline-block;
+            background: #f0ece4;
+            border: 2px solid #f0ece4;
+            padding: 11px 22px;
+            border-radius: 0;
+            color: #0d0d0d;
+            font-weight: bold;
+            font-family: 'Courier Prime', monospace;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 12px;
+            position: relative;
+            overflow: hidden;
+            font-size: 13px;
+            transition: transform 0.2s ease, background 0.2s ease,
+                        box-shadow 0.2s ease, color 0.2s ease,
+                        letter-spacing 0.2s ease;
+        }
+
+        input[type=submit]:hover, button:hover {
+            background: #0d0d0d;
+            color: #f0ece4;
+            box-shadow: 3px 3px 0px #888;
+            letter-spacing: 4px;
+        }
+
+        #btn-scan {
+            background: #f0ece4;
+            color: #0d0d0d;
+            border: 2px solid #f0ece4;
+            font-size: 15px;
+            padding: 13px 28px;
+            width: 100%;
+        }
+
+        #btn-scan:hover {
+            background: #0d0d0d;
+            color: #f0ece4;
+            box-shadow: 3px 3px 0px #888;
+            letter-spacing: 5px;
+        }
+
+        /* ✅ BG REMOVER BUTTON */
+        #btn-bgremove {
+            background: transparent;
+            color: #f0ece4;
+            border: 2px dashed #888;
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+
+        #btn-bgremove:hover {
+            background: #f0ece4;
+            color: #0d0d0d;
+            border-style: solid;
+            border-color: #f0ece4;
+            box-shadow: 3px 3px 0px #888;
+            letter-spacing: 4px;
+        }
+
+        #btn-bgremove:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            letter-spacing: 2px;
+        }
+
+        .btn-divider {
+            text-align: center;
+            font-family: 'Courier Prime', monospace;
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: #333;
+            text-transform: uppercase;
+            margin: 8px 0 2px 0;
+        }
+
+        /* ✅ BG RESULT AREA */
+        .bg-result-area {
+            display: none;
+            margin-top: 14px;
+            border: 1px dashed #3a3a3a;
+            padding: 14px;
+            background: #0a0a0a;
+            text-align: center;
+            animation: fadeUp 0.5s ease;
+        }
+
+        .bg-status {
+            font-family: 'Courier Prime', monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #888;
+            text-transform: uppercase;
+            margin: 0 0 10px 0;
+        }
+
+        .bg-result-area img {
+            max-width: 100%;
+            border: 1px solid #2e2e2e;
+            margin-top: 8px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-download-result {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 20px;
+            background: transparent;
+            color: #f0ece4;
+            border: 2px solid #888;
+            text-decoration: none;
+            font-family: 'Courier Prime', monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: background 0.2s ease, color 0.2s ease,
+                        border-color 0.2s ease, letter-spacing 0.2s ease;
+        }
+
+        .btn-download-result:hover {
+            background: #f0ece4;
+            color: #0d0d0d;
+            border-color: #f0ece4;
+            letter-spacing: 4px;
+        }
+
+        /* ✅ LOADING SPINNER */
+        .bg-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #333;
+            border-top-color: #f0ece4;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        #btn-feedback {
+            background: transparent;
+            color: #f0ece4;
+            border: 2px solid #f0ece4;
+            width: 100%;
+            padding: 11px;
+        }
+
+        #btn-feedback:hover {
+            background: #f0ece4;
+            color: #0d0d0d;
+            box-shadow: 3px 3px 0px #888;
+            letter-spacing: 4px;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transform: scale(0);
+            animation: ripple-anim 0.55s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-anim {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        @keyframes bounce-click {
+            0%   { transform: scale(1); }
+            30%  { transform: scale(0.88); }
+            60%  { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .bounce-active { animation: bounce-click 0.35s ease !important; }
+
+        @keyframes pulse-ring {
+            0%   { box-shadow: 0 0 0 0 rgba(200,200,200,0.5); }
+            70%  { box-shadow: 0 0 0 14px rgba(200,200,200,0); }
+            100% { box-shadow: 0 0 0 0 rgba(200,200,200,0); }
+        }
+
+        .pulse-active { animation: pulse-ring 0.5s ease !important; }
+
+        textarea, select {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 0;
+            background: #0d0d0d;
+            border: 1px solid #3a3a3a;
+            color: #d4cfc7;
+            font-size: 14px;
+            font-family: 'Courier Prime', monospace;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        textarea:hover, select:hover {
+            border-color: #888;
+            box-shadow: 2px 2px 0px #333;
+        }
+
+        select { cursor: pointer; }
+
+        select:focus, textarea:focus {
+            outline: none;
+            border-color: #f0ece4;
+            box-shadow: 2px 2px 0px #555;
+        }
+
+        .label, h3 {
+            font-weight: bold;
+            color: #f0ece4;
+            font-family: 'Special Elite', cursive;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-bottom: 1px dashed #3a3a3a;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            font-size: 22px;
+            line-height: 1.4;
+            transition: letter-spacing 0.3s ease, color 0.3s ease,
+                        border-bottom-color 0.3s ease;
+            cursor: default;
+        }
+
+        h3:hover {
+            letter-spacing: 5px;
+            color: #ffffff;
+            border-bottom-color: #888;
+        }
+
+        pre, p {
+            font-weight: 500;
+            font-family: 'Courier Prime', monospace;
+            color: #c8c3bb;
+            line-height: 1.7;
+            font-size: 15px;
+            transition: color 0.3s ease;
+        }
+
+        p:hover { color: #f0ece4; }
+
+        .download a {
+            display: block;
+            margin-top: 10px;
+            padding: 11px 16px;
+            background: transparent;
+            color: #f0ece4;
+            border: 2px solid #888;
+            text-align: center;
+            text-decoration: none;
+            font-family: 'Courier Prime', monospace;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background 0.2s ease, color 0.2s ease,
+                        border-color 0.2s ease, box-shadow 0.2s ease,
+                        letter-spacing 0.2s ease, transform 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download a:hover {
+            background: #f0ece4;
+            color: #0d0d0d;
+            border-color: #f0ece4;
+            box-shadow: 3px 3px 0px #555;
+            letter-spacing: 3px;
+            transform: translateX(4px);
+        }
+
+        .download a:active { transform: scale(0.96); }
+
+        .community {
+            border-left: 3px solid #f0ece4;
+            background: #0d0d0d;
+        }
+
+        .reddit-link {
+            display: block;
+            margin-top: 10px;
+            padding: 11px 16px;
+            background: transparent;
+            border: 2px solid #666;
+            color: #c8c3bb;
+            text-decoration: none;
+            font-family: 'Courier Prime', monospace;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            transition: background 0.2s ease, border-color 0.2s ease,
+                        box-shadow 0.2s ease, letter-spacing 0.2s ease,
+                        color 0.2s ease, transform 0.2s ease;
+        }
+
+        .reddit-link:hover {
+            background: #1a1a1a;
+            border-color: #aaa;
+            box-shadow: 3px 3px 0px #444;
+            letter-spacing: 3px;
+            color: #f0ece4;
+            transform: translateX(4px);
+        }
+
+        .reddit-link:active { transform: scale(0.96); }
+
+        .tag {
+            display: inline-block;
+            margin: 5px;
+            padding: 5px 10px;
+            background: #1a1a1a;
+            font-size: 12px;
+            border: 1px solid #3a3a3a;
+            font-family: 'Courier Prime', monospace;
+            color: #aaa;
+            letter-spacing: 1px;
+            transition: background 0.2s ease, color 0.2s ease,
+                        border-color 0.2s ease, transform 0.2s ease;
+            cursor: default;
+        }
+
+        .tag:hover {
+            background: #f0ece4;
+            color: #0d0d0d;
+            border-color: #f0ece4;
+            transform: translateY(-3px);
+        }
+
+        .feedback-box {
+            border-top: 1px dashed #2e2e2e;
+            margin-top: 15px;
+            padding-top: 15px;
+            animation: fadeUp 0.5s ease;
+            transition: background 0.3s ease, padding-left 0.3s ease;
+        }
+
+        .feedback-box:hover { background: #161616; padding-left: 10px; }
+
+        .tag-positive {
+            color: #b0b0b0;
+            font-weight: bold;
+            font-family: 'Courier Prime', monospace;
+            letter-spacing: 1px;
+            transition: color 0.2s ease;
+        }
+
+        .tag-positive:hover { color: #ffffff; }
+
+        .tag-negative {
+            color: #666;
+            font-weight: bold;
+            font-family: 'Courier Prime', monospace;
+            letter-spacing: 1px;
+            transition: color 0.2s ease;
+        }
+
+        .tag-negative:hover { color: #aaa; }
+
+        .section-badge {
+            display: inline-block;
+            background: #f0ece4;
+            color: #0d0d0d;
+            font-family: 'Courier Prime', monospace;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            margin-bottom: 12px;
+            transition: background 0.2s ease, color 0.2s ease,
+                        letter-spacing 0.2s ease, padding 0.2s ease;
+            cursor: default;
+        }
+
+        .section-badge:hover {
+            background: #0d0d0d;
+            color: #f0ece4;
+            letter-spacing: 4px;
+            padding: 3px 14px;
+            outline: 1px solid #f0ece4;
+        }
+
+        .trail-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #f0ece4;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            animation: trail-fade 0.6s ease forwards;
+        }
+
+        @keyframes trail-fade {
+            0%   { opacity: 0.8; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.1); }
+        }
+
+        /* ======================== */
+        /*   RIGHT SIDEBAR          */
+        /* ======================== */
+
+        .vintage-divider {
+            text-align: center;
+            color: #3a3a3a;
+            font-size: 13px;
+            letter-spacing: 4px;
+            margin: 10px 0;
+            transition: color 0.3s ease, letter-spacing 0.3s ease;
+            cursor: default;
+        }
+
+        .vintage-divider:hover { color: #888; letter-spacing: 7px; }
+
+        .vintage-stamp {
+            border: 3px double #3a3a3a;
+            padding: 18px 12px;
+            text-align: center;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            cursor: default;
+            position: relative;
+        }
+
+        .vintage-stamp:hover {
+            border-color: #f0ece4;
+            box-shadow: 0 0 0 1px #f0ece4, 4px 4px 0px #2a2a2a;
+            transform: translateY(-4px);
+        }
+
+        .vintage-stamp .stamp-title {
+            font-family: 'Special Elite', cursive;
+            font-size: 11px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 8px;
+            transition: color 0.3s ease, letter-spacing 0.3s ease;
+        }
+
+        .vintage-stamp:hover .stamp-title { color: #aaa; letter-spacing: 7px; }
+
+        .vintage-stamp .stamp-main {
+            font-family: 'Special Elite', cursive;
+            font-size: 28px;
+            color: #f0ece4;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            transition: letter-spacing 0.3s ease, color 0.3s ease;
+        }
+
+        .vintage-stamp:hover .stamp-main { letter-spacing: 6px; color: #fff; }
+
+        .vintage-stamp .stamp-sub {
+            font-family: 'Courier Prime', monospace;
+            font-size: 11px;
+            color: #444;
+            letter-spacing: 3px;
+            margin-top: 8px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .vintage-stamp:hover .stamp-sub { color: #888; }
+
+        .vintage-stamp::before, .vintage-stamp::after {
+            content: '✦';
+            position: absolute;
+            font-size: 10px;
+            color: #3a3a3a;
+            transition: color 0.3s ease;
+        }
+
+        .vintage-stamp::before { top: 6px; left: 8px; }
+        .vintage-stamp::after  { bottom: 6px; right: 8px; }
+        .vintage-stamp:hover::before,
+        .vintage-stamp:hover::after { color: #f0ece4; }
+
+        .vintage-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #222;
+            transition: padding-left 0.3s ease, border-bottom-color 0.3s ease;
+            cursor: default;
+        }
+
+        .vintage-stat:hover { padding-left: 8px; border-bottom-color: #555; }
+
+        .vintage-stat .stat-label {
+            font-family: 'Courier Prime', monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #555;
+            transition: color 0.3s ease;
+        }
+
+        .vintage-stat:hover .stat-label { color: #aaa; }
+
+        .vintage-stat .stat-value {
+            font-family: 'Special Elite', cursive;
+            font-size: 16px;
+            color: #f0ece4;
+            letter-spacing: 2px;
+            transition: color 0.3s ease, letter-spacing 0.3s ease;
+        }
+
+        .vintage-stat:hover .stat-value { color: #fff; letter-spacing: 4px; }
+
+        .vintage-quote {
+            border-left: 3px solid #3a3a3a;
+            padding: 12px 14px;
+            margin: 15px 0;
+            transition: border-left-color 0.3s ease, background 0.3s ease, padding-left 0.3s ease;
+            cursor: default;
+        }
+
+        .vintage-quote:hover {
+            border-left-color: #f0ece4;
+            background: #141414;
+            padding-left: 20px;
+        }
+
+        .vintage-quote p {
+            font-family: 'Special Elite', cursive;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+            letter-spacing: 1px;
+            font-style: italic;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .vintage-quote:hover p { color: #aaa; }
+
+        .vintage-quote .quote-author {
+            font-family: 'Courier Prime', monospace;
+            font-size: 11px;
+            color: #444;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .vintage-quote:hover .quote-author { color: #888; }
+
+        .vintage-checklist {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+
+        .vintage-checklist li {
+            font-family: 'Courier Prime', monospace;
+            font-size: 13px;
+            color: #777;
+            letter-spacing: 1px;
+            padding: 8px 0;
+            border-bottom: 1px dotted #1e1e1e;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            transition: color 0.3s ease, padding-left 0.3s ease, border-bottom-color 0.3s ease;
+            cursor: default;
+        }
+
+        .vintage-checklist li:hover { color: #f0ece4; padding-left: 8px; border-bottom-color: #444; }
+
+        .vintage-checklist li .check-mark {
+            color: #3a3a3a;
+            font-size: 14px;
+            flex-shrink: 0;
+            transition: color 0.3s ease;
+        }
+
+        .vintage-checklist li:hover .check-mark { color: #f0ece4; }
+
+        .ticker-wrap {
+            overflow: hidden;
+            border-top: 1px solid #2a2a2a;
+            border-bottom: 1px solid #2a2a2a;
+            padding: 8px 0;
+            margin: 15px 0;
+            background: #0a0a0a;
+        }
+
+        .ticker-text {
+            display: inline-block;
+            white-space: nowrap;
+            font-family: 'Courier Prime', monospace;
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: #444;
+            text-transform: uppercase;
+            animation: ticker-scroll 18s linear infinite;
+        }
+
+        .ticker-wrap:hover .ticker-text { color: #888; animation-play-state: paused; }
+
+        @keyframes ticker-scroll {
+            from { transform: translateX(100%); }
+            to   { transform: translateX(-100%); }
+        }
+
+        /* ======================== */
+        /*   VINTAGE CAR            */
+        /* ======================== */
+
+        .car-card {
+            text-align: center;
+            border-left: 3px solid #f0ece4;
+            background: #0a0a0a;
+            padding: 20px 16px;
+        }
+
+        .car-wrap {
+            padding: 10px 0 0 0;
+            cursor: default;
+            transition: transform 0.4s ease;
+            position: relative;
+        }
+
+        .car-wrap:hover { transform: translateY(-5px); }
+
+        .car-support-msg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Special Elite', cursive;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #f0ece4;
+            background: rgba(8,8,8,0.92);
+            border: 1px solid #f0ece4;
+            border-left: 3px solid #f0ece4;
+            padding: 10px 18px;
+            opacity: 0;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 10;
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .car-support-msg::before { content: '✦'; margin-right: 8px; color: #888; }
+        .car-support-msg::after  { content: '✦'; margin-left: 8px; color: #888; }
+
+        .car-wrap:hover .car-support-msg {
+            opacity: 1;
+            transform: translate(-50%, -65%);
+        }
+
+        .car-wrap:hover .car-wheel { animation: wheel-spin 0.7s linear infinite; }
+        .car-wrap:hover .smoke     { animation: smoke-puff 1s ease-out infinite; }
+
+        .smoke { opacity: 0; }
+
+        @keyframes wheel-spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        @keyframes smoke-puff {
+            0%   { opacity: 0.6; transform: translate(0,0) scale(1); }
+            100% { opacity: 0; transform: translate(-18px,-14px) scale(2); }
+        }
+
+        .car-label {
+            font-family: 'Special Elite', cursive;
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: #444;
+            text-transform: uppercase;
+            margin-top: 10px;
+            transition: color 0.3s ease, letter-spacing 0.3s ease;
+            cursor: default;
+        }
+
+        .car-wrap:hover .car-label { color: #888; letter-spacing: 6px; }
+
+        .car-road {
+            width: 100%;
+            height: 2px;
+            background: #2a2a2a;
+            margin-top: 4px;
+            transition: background 0.3s ease;
+        }
+
+        .car-wrap:hover .car-road { background: #555; }
+
+        /* ======================== */
+        /*   FOOTER                 */
+        /* ======================== */
+
+        .site-footer {
+            border-top: 2px solid #1e1e1e;
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #080808;
+            margin-top: 10px;
+        }
+
+        .footer-brand {
+            font-family: 'Special Elite', cursive;
+            font-size: 20px;
+            letter-spacing: 8px;
+            color: #3a3a3a;
+            text-transform: uppercase;
+            cursor: default;
+            transition: color 0.3s ease, letter-spacing 0.3s ease;
+        }
+
+        .footer-brand:hover { color: #888; letter-spacing: 12px; }
+
+        .footer-copy {
+            font-family: 'Courier Prime', monospace;
+            font-size: 11px;
+            color: #2e2e2e;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            cursor: default;
+        }
+
+        .footer-copy:hover { color: #555; }
+
+        /* ======================== */
+        /*   ANIMATIONS             */
+        /* ======================== */
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; padding: 12px; }
+            h1 { font-size: 22px; letter-spacing: 3px; }
+            h3 { font-size: 18px; }
+            .brand-name { font-size: 24px; letter-spacing: 8px; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 16px; letter-spacing: 2px; }
+            h3 { font-size: 15px; }
+            .card { padding: 12px; }
+            .brand-name { font-size: 18px; letter-spacing: 6px; }
+            .car-support-msg { font-size: 10px; letter-spacing: 2px; padding: 8px 10px; }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- ✅ BRAND BAR -->
+    <div class="brand-bar">
+        <span class="brand-name">JOY</span>
+        <span class="brand-divider">✦ · ✦ · ✦</span>
+        <span class="brand-tagline">Est. 2024 · Error Fixer Pro<br>Powered by AI</span>
+    </div>
+
+    <h1>⚙ AI Error Fixer Pro ⚙</h1>
+
+    <div class="container">
+
+        <!-- LEFT COLUMN -->
+        <div class="left-col">
+
+            <div class="card">
+                <span class="section-badge">[ Step 1 ] Upload</span>
+                <form action="/" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="image" id="main-file-input"
+                           accept="image/*" required>
+                    <br>
+                    <input type="submit" value="⟶ Scan Error" id="btn-scan">
+                </form>
+
+                <div class="btn-divider">— or —</div>
+
+                <!-- ✅ BG REMOVER BUTTON — processes image in browser -->
+                <button type="button" id="btn-bgremove">✂ Remove Background</button>
+
+                <!-- ✅ RESULT SHOWN HERE -->
+                <div class="bg-result-area" id="bg-result-area"></div>
+            </div>
+
+            <div class="card">
+                <span class="section-badge">[ Result ] Detected Text</span>
+                <h3>🔍 Detected Text</h3>
+                <pre>{{ text }}</pre>
+            </div>
+
+            <div class="card">
+                <span class="section-badge">[ Result ] Analysis</span>
+                <h3>🛠 Fix</h3>
+                <p>{{ solution }}</p>
+                <h3>📌 Type</h3>
+                <p>{{ category }}</p>
+            </div>
+
+            <div class="card community">
+                <span class="section-badge">[ Community ]</span>
+                <h3>🌍 Community Fix</h3>
+                <span class="tag">dll error</span>
+                <span class="tag">directx</span>
+                <span class="tag">vcruntime</span>
+                <a class="reddit-link" target="_blank"
+                   href="https://www.reddit.com/search/?q=dll%20error%20fix">
+                   🔴 Reddit Discussions ⟶
+                </a>
+            </div>
+
+            <div class="card download">
+                <span class="section-badge">[ Downloads ]</span>
+                <h3>⬇ Official Downloads</h3>
+                <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist"
+                   target="_blank">⬇ VC++ Redistributable</a>
+                <a href="https://www.microsoft.com/en-us/download/details.aspx?id=35"
+                   target="_blank">⬇ DirectX Runtime</a>
+            </div>
+
+            <div class="card">
+                <span class="section-badge">[ Step 2 ] Feedback</span>
+                <h3>💬 Feedback</h3>
+                <form action="/" method="POST">
+                    <select name="feedback_type">
+                        <option value="positive">Positive 👍</option>
+                        <option value="negative">Negative 👎</option>
+                    </select>
+                    <textarea name="feedback_text" required></textarea>
+                    <button type="submit" id="btn-feedback">⟶ Submit Feedback</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <span class="section-badge">[ Log ] User Feedback</span>
+                <h3>🧾 User Feedback</h3>
+                {% for f in feedbacks %}
+                    <div class="feedback-box">
+                        {% if f[0] == "positive" %}
+                            <span class="tag-positive">👍 Positive</span>
+                        {% else %}
+                            <span class="tag-negative">👎 Negative</span>
+                        {% endif %}
+                        <p>{{ f[1] }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="right-col">
+
+            <div class="card">
+                <span class="section-badge">[ Info ]</span>
+                <h3>⚠ Safety Tips</h3>
+                <p>Never download random DLL files</p>
+                <p>Use official sources only</p>
+            </div>
+
+            <div class="card">
+                <span class="section-badge">[ Status ]</span>
+                <div class="vintage-stamp">
+                    <div class="stamp-title">— JOY Systems —</div>
+                    <div class="stamp-main">Online<br>& Ready</div>
+                    <div class="stamp-sub">Est. Error Fixer · 2024</div>
+                </div>
+                <div class="vintage-divider">— ✦ · ✦ · ✦ —</div>
+            </div>
+
+            <!-- VINTAGE CAR -->
+            <div class="card car-card">
+                <span class="section-badge">[ Garage ]</span>
+                <div class="car-wrap">
+                    <div class="car-support-msg">Please Support Us</div>
+                    <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg"
+                         width="100%" style="overflow:visible;">
+                        <circle class="smoke" cx="34" cy="88" r="5" fill="#2a2a2a"/>
+                        <circle class="smoke" cx="28" cy="82" r="4" fill="#222" style="animation-delay:0.2s"/>
+                        <circle class="smoke" cx="22" cy="76" r="3" fill="#1a1a1a" style="animation-delay:0.4s"/>
+                        <ellipse cx="162" cy="130" rx="128" ry="7" fill="#080808"/>
+                        <rect x="48" y="96" width="224" height="7" rx="2" fill="#1e1e1e" stroke="#444" stroke-width="1"/>
+                        <rect x="52" y="68" width="216" height="36" rx="4" fill="#1a1a1a" stroke="#777" stroke-width="1.5"/>
+                        <rect x="30" y="72" width="52" height="28" rx="3" fill="#161616" stroke="#666" stroke-width="1.5"/>
+                        <line x1="32" y1="86" x2="80" y2="86" stroke="#2e2e2e" stroke-width="1"/>
+                        <path d="M105 68 L128 36 L218 36 L242 68 Z" fill="#111" stroke="#777" stroke-width="1.5"/>
+                        <path d="M132 66 L148 42 L200 42 L216 66 Z" fill="#0a0a0a" stroke="#3a3a3a" stroke-width="1"/>
+                        <line x1="150" y1="44" x2="138" y2="64" stroke="#2a2a2a" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="170" y1="68" x2="170" y2="103" stroke="#2a2a2a" stroke-width="1.2"/>
+                        <line x1="210" y1="68" x2="210" y2="103" stroke="#2a2a2a" stroke-width="1.2"/>
+                        <rect x="182" y="84" width="12" height="3" rx="1" fill="#333" stroke="#555" stroke-width="0.8"/>
+                        <rect x="220" y="84" width="12" height="3" rx="1" fill="#333" stroke="#555" stroke-width="0.8"/>
+                        <ellipse cx="38" cy="82" rx="10" ry="8" fill="#0d0d0d" stroke="#888" stroke-width="1.5"/>
+                        <ellipse cx="38" cy="82" rx="6" ry="4.5" fill="#1a1a1a" stroke="#555" stroke-width="0.8"/>
+                        <ellipse cx="36" cy="80" rx="2" ry="1.5" fill="#3a3a3a"/>
+                        <rect x="30" y="90" width="18" height="10" rx="1" fill="#0d0d0d" stroke="#555" stroke-width="1"/>
+                        <line x1="34" y1="90" x2="34" y2="100" stroke="#333" stroke-width="0.8"/>
+                        <line x1="38" y1="90" x2="38" y2="100" stroke="#333" stroke-width="0.8"/>
+                        <line x1="42" y1="90" x2="42" y2="100" stroke="#333" stroke-width="0.8"/>
+                        <rect x="22" y="93" width="16" height="6" rx="2" fill="#222" stroke="#666" stroke-width="1.2"/>
+                        <ellipse cx="272" cy="80" rx="7" ry="6" fill="#0d0d0d" stroke="#777" stroke-width="1.5"/>
+                        <ellipse cx="272" cy="80" rx="4" ry="3.5" fill="#1a1a1a"/>
+                        <rect x="278" y="90" width="16" height="6" rx="2" fill="#222" stroke="#666" stroke-width="1.2"/>
+                        <rect x="14" y="90" width="22" height="4" rx="2" fill="#1a1a1a" stroke="#3a3a3a" stroke-width="1"/>
+                        <circle cx="14" cy="92" r="3" fill="#111" stroke="#3a3a3a" stroke-width="1"/>
+                        <line x1="140" y1="36" x2="206" y2="36" stroke="#2a2a2a" stroke-width="2"/>
+                        <g class="car-wheel" style="transform-origin:100px 110px; transform-box:fill-box;">
+                            <circle cx="100" cy="110" r="26" fill="#111" stroke="#888" stroke-width="2.5"/>
+                            <circle cx="100" cy="110" r="20" fill="#0d0d0d" stroke="#555" stroke-width="1.2"/>
+                            <line x1="100" y1="84" x2="100" y2="136" stroke="#444" stroke-width="1.8"/>
+                            <line x1="74" y1="110" x2="126" y2="110" stroke="#444" stroke-width="1.8"/>
+                            <line x1="81.6" y1="91.6" x2="118.4" y2="128.4" stroke="#444" stroke-width="1.8"/>
+                            <line x1="118.4" y1="91.6" x2="81.6" y2="128.4" stroke="#444" stroke-width="1.8"/>
+                            <circle cx="100" cy="110" r="7" fill="#1e1e1e" stroke="#888" stroke-width="2"/>
+                            <circle cx="100" cy="110" r="3" fill="#333"/>
+                        </g>
+                        <g class="car-wheel" style="transform-origin:230px 110px; transform-box:fill-box;">
+                            <circle cx="230" cy="110" r="26" fill="#111" stroke="#888" stroke-width="2.5"/>
+                            <circle cx="230" cy="110" r="20" fill="#0d0d0d" stroke="#555" stroke-width="1.2"/>
+                            <line x1="230" y1="84" x2="230" y2="136" stroke="#444" stroke-width="1.8"/>
+                            <line x1="204" y1="110" x2="256" y2="110" stroke="#444" stroke-width="1.8"/>
+                            <line x1="211.6" y1="91.6" x2="248.4" y2="128.4" stroke="#444" stroke-width="1.8"/>
+                            <line x1="248.4" y1="91.6" x2="211.6" y2="128.4" stroke="#444" stroke-width="1.8"/>
+                            <circle cx="230" cy="110" r="7" fill="#1e1e1e" stroke="#888" stroke-width="2"/>
+                            <circle cx="230" cy="110" r="3" fill="#333"/>
+                        </g>
+                    </svg>
+                    <div class="car-road"></div>
+                    <div class="car-label">— 1924 Vintage Cruiser —</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="section-badge">[ Records ]</span>
+                <h3>📊 Stats</h3>
+                <div class="vintage-stat">
+                    <span class="stat-label">Errors Fixed</span>
+                    <span class="stat-value">4,231</span>
+                </div>
+                <div class="vintage-stat">
+                    <span class="stat-label">DLL Types</span>
+                    <span class="stat-value">38</span>
+                </div>
+                <div class="vintage-stat">
+                    <span class="stat-label">Success Rate</span>
+                    <span class="stat-value">96%</span>
+                </div>
+                <div class="vintage-stat">
+                    <span class="stat-label">Users Helped</span>
+                    <span class="stat-value">1,842</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="section-badge">[ Live ]</span>
+                <div class="ticker-wrap">
+                    <span class="ticker-text">
+                        ✦ VCRUNTIME140.DLL · MSVCP140.DLL · D3DX9_43.DLL ·
+                        XINPUT1_3.DLL · OPENAL32.DLL · MSVCR100.DLL ·
+                        DIRECTX · VISUAL C++ · WINDOWS FIX ✦
+                    </span>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="section-badge">[ Note ]</span>
+                <div class="vintage-quote">
+                    <p>"A system error is merely a puzzle awaiting the right key."</p>
+                    <div class="quote-author">— The Error Fixer</div>
+                </div>
+                <div class="vintage-divider">— ✦ —</div>
+            </div>
+
+            <div class="card">
+                <span class="section-badge">[ Checklist ]</span>
+                <h3>✔ Before You Fix</h3>
+                <ul class="vintage-checklist">
+                    <li><span class="check-mark">◈</span> Screenshot the error message</li>
+                    <li><span class="check-mark">◈</span> Note which app triggered it</li>
+                    <li><span class="check-mark">◈</span> Check Windows is up to date</li>
+                    <li><span class="check-mark">◈</span> Use only official downloads</li>
+                    <li><span class="check-mark">◈</span> Restart after installing fix</li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ✅ FOOTER -->
+    <div class="site-footer">
+        <span class="footer-brand">JOY</span>
+        <span class="footer-copy">© 2024 JOY · AI Error Fixer Pro · All Rights Reserved</span>
+    </div>
+
+<script>
+
+    /* ── SCROLL FADE-IN ── */
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            } else {
+                entry.target.classList.remove('visible');
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    cards.forEach(card => observer.observe(card));
+
+    /* ── BUTTON ANIMATIONS ── */
+    function addRipple(e) {
+        const btn = e.currentTarget;
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        const rect = btn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+        ripple.style.top  = (e.clientY - rect.top  - size / 2) + 'px';
+        btn.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+    }
+
+    function addBounce(el) {
+        el.classList.remove('bounce-active');
+        void el.offsetWidth;
+        el.classList.add('bounce-active');
+        setTimeout(() => el.classList.remove('bounce-active'), 400);
+    }
+
+    function addPulse(el) {
+        el.classList.remove('pulse-active');
+        void el.offsetWidth;
+        el.classList.add('pulse-active');
+        setTimeout(() => el.classList.remove('pulse-active'), 550);
+    }
+
+    const scanBtn     = document.getElementById('btn-scan');
+    const feedbackBtn = document.getElementById('btn-feedback');
+
+    if (scanBtn) {
+        scanBtn.addEventListener('click', function(e) { addRipple(e); addBounce(this); });
+    }
+    if (feedbackBtn) {
+        feedbackBtn.addEventListener('click', function(e) { addRipple(e); addPulse(this); });
+    }
+
+    /* ── CURSOR TRAIL ── */
+    document.addEventListener('mousemove', function(e) {
+        const dot = document.createElement('div');
+        dot.classList.add('trail-dot');
+        dot.style.left = (e.clientX - 3) + 'px';
+        dot.style.top  = (e.clientY - 3) + 'px';
+        document.body.appendChild(dot);
+        setTimeout(() => dot.remove(), 600);
+    });
+
+</script>
+
+<!-- ✅ BG REMOVER — runs fully in browser, no API key needed -->
+<script type="module">
+    import { removeBackground } from
+        'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/web/index.js';
+
+    const bgBtn      = document.getElementById('btn-bgremove');
+    const fileInput  = document.getElementById('main-file-input');
+    const resultArea = document.getElementById('bg-result-area');
+
+    bgBtn.addEventListener('click', async function(e) {
+
+        /* ripple + pulse */
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        const rect = bgBtn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+        ripple.style.top  = (e.clientY - rect.top  - size / 2) + 'px';
+        bgBtn.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+
+        const file = fileInput.files[0];
+
+        if (!file) {
+            resultArea.style.display = 'block';
+            resultArea.innerHTML =
+                '<p class="bg-status">✘ Please upload an image first!</p>';
+            return;
+        }
+
+        /* show loading */
+        bgBtn.disabled = true;
+        bgBtn.textContent = 'Processing...';
+        resultArea.style.display = 'block';
+        resultArea.innerHTML =
+            '<p class="bg-status"><span class="bg-spinner"></span> Removing background — please wait...</p>';
+
+        try {
+            const blob = await removeBackground(file);
+            const url  = URL.createObjectURL(blob);
+
+            resultArea.innerHTML = `
+                <p class="bg-status">✔ Background Removed Successfully!</p>
+                <img src="${url}" alt="Background Removed">
+                <br>
+                <a href="${url}" download="joy-no-bg.png" class="btn-download-result">
+                    ⬇ Download Image
+                </a>
+            `;
+        } catch (err) {
+            resultArea.innerHTML =
+                '<p class="bg-status">✘ Could not process image. Try a different file.</p>';
+            console.error(err);
+        }
+
+        bgBtn.disabled = false;
+        bgBtn.textContent = '✂ Remove Background';
+    });
+</script>
+
+</body>
+</html>
