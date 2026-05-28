@@ -1,13 +1,11 @@
 from flask import Flask, render_template, request, redirect
-import pytesseract
-from PIL import Image
 import sqlite3
 import os
 
 app = Flask(__name__)
 
-# ✅ FIX FOR LINUX (Render / Docker)
-pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
+# ---------------- OCR ENABLED ----------------
+OCR_ENABLED = True
 
 # ---------------- DATABASE ----------------
 def init_db():
@@ -40,7 +38,7 @@ def get_feedback():
     conn.close()
     return data
 
-# ---------------- ERROR DB ----------------
+# ---------------- ERROR DATABASE ----------------
 error_database = {
     "vcruntime": "Install Visual C++ Redistributable",
     "msvcp": "Reinstall Visual C++ Redistributable",
@@ -56,7 +54,7 @@ def home():
     solution = "Upload image to detect error"
     category = ""
 
-    # IMAGE PROCESS (SAFE VERSION)
+    # ---------------- IMAGE PROCESS ----------------
     if request.method == "POST" and "image" in request.files:
         file = request.files.get("image")
 
@@ -65,26 +63,43 @@ def home():
             file.save(path)
 
             try:
-                img = Image.open(path)
-                text = pytesseract.image_to_string(img, config="--psm 6")
-                low = text.lower()
+                if OCR_ENABLED:
+                    import pytesseract
+                    from PIL import Image
 
-                for k, v in error_database.items():
-                    if k in low:
-                        solution = v
-                        category = k
-                        break
+                    # Linux / Render path
+                    pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
+
+                    img = Image.open(path)
+                    text = pytesseract.image_to_string(img, config="--psm 6")
+
+                    low = text.lower()
+
+                    found = False
+                    for k, v in error_database.items():
+                        if k in low:
+                            solution = v
+                            category = k
+                            found = True
+                            break
+
+                    if not found:
+                        solution = "No known error detected"
+
+                else:
+                    text = "OCR is turned off"
+                    solution = "Enable OCR_ENABLED = True to activate"
 
             except Exception as e:
-                text = "OCR failed"
-                solution = "Tesseract error on server"
+                text = "OCR processing failed"
+                solution = "Server OCR error (check Tesseract installation)"
                 print("OCR ERROR:", e)
 
             finally:
                 if os.path.exists(path):
                     os.remove(path)
 
-    # FEEDBACK SAVE
+    # ---------------- FEEDBACK SAVE ----------------
     if request.method == "POST" and "feedback_text" in request.form:
         save_feedback(
             request.form.get("feedback_type"),
