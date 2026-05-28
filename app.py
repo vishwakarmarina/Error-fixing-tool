@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, redirect
 import sqlite3
 import os
+from flask import Flask, request, render_template, redirect
 
 app = Flask(__name__)
 
@@ -41,40 +41,75 @@ def get_feedback():
 
 # ---------------- FIX BOX BUILDER ----------------
 def build_fix_box():
-    return """
-===============================
-        🛠 FIX BOX
-===============================
+    basic_fixes = [
+        ("Restart the Program",             "Close the application completely and relaunch it."),
+        ("Restart Your PC",                 "Clears temporary DLL / runtime errors held in memory."),
+        ("Run as Administrator",            "Right-click the app icon and choose <b>Run as Administrator</b>."),
+        ("Install Visual C++ Redistributable",
+         "Download and install <b>Microsoft Visual C++ 2015–2022</b> from the official Microsoft website."),
+        ("Install DirectX Runtime",
+         "Download and install <b>DirectX End-User Runtime</b> from the Microsoft Download Center."),
+    ]
 
-1. Restart the program completely
-2. Restart your PC to clear temporary DLL/runtime errors
-3. Run the application as Administrator
-4. Install Microsoft Visual C++ Redistributable (2015–2022)
-5. Install DirectX End-User Runtime
+    advanced_fixes = [
+        ("Run System File Checker",
+         "Open <b>Command Prompt as Admin</b>, type <code>sfc /scannow</code> and press Enter. Wait for the scan to complete."),
+        ("Update Windows Fully",
+         "Go to <b>Settings → Windows Update</b> and install all pending updates, then restart."),
+        ("Reinstall the Software",
+         "Uninstall the application causing the error via <b>Control Panel → Programs</b>, then reinstall the latest version."),
+    ]
 
--------------------------------
-        ADVANCED FIXES
--------------------------------
+    def render_cards(fixes, start=1):
+        html = ""
+        for i, (title, desc) in enumerate(fixes, start=start):
+            html += f"""
+                <div class="fix-card">
+                    <div class="fix-number">{i}</div>
+                    <div class="fix-body">
+                        <div class="fix-title">{title}</div>
+                        <div class="fix-desc">{desc}</div>
+                    </div>
+                </div>"""
+        return html
 
-1. Run Command Prompt as Admin
-   → Type: sfc /scannow
+    return f"""
+    <div class="fix-wrapper">
 
-2. Update Windows fully
+        <div class="fix-section">
+            <div class="fix-section-header basic">
+                <span class="fix-section-icon">🛠</span>
+                <span>Basic Fixes</span>
+            </div>
+            <div class="fix-cards">
+                {render_cards(basic_fixes, start=1)}
+            </div>
+        </div>
 
-3. Reinstall the software causing error
+        <div class="fix-section">
+            <div class="fix-section-header advanced">
+                <span class="fix-section-icon">⚙</span>
+                <span>Advanced Fixes</span>
+            </div>
+            <div class="fix-cards">
+                {render_cards(advanced_fixes, start=len(basic_fixes) + 1)}
+            </div>
+        </div>
 
-===============================
-💡 Tip: Always restart PC after installing DLL packages
-===============================
-"""
+        <div class="fix-tip">
+            💡 <b>Pro Tip:</b> Always restart your PC after installing any DLL or runtime package.
+        </div>
+
+    </div>
+    """
 
 
 # ---------------- HOME ROUTE ----------------
 @app.route("/", methods=["GET", "POST"])
 def home():
 
-    text = ""
-    solution = "Upload screenshot to detect error"
+    text     = ""
+    solution = "Upload a screenshot to detect the error."
     category = ""
 
     if request.method == "POST" and "image" in request.files:
@@ -89,29 +124,26 @@ def home():
                     import pytesseract
                     from PIL import Image
 
-                    img = Image.open(path)
-
-                    # OCR only for internal processing
+                    img  = Image.open(path)
                     text = pytesseract.image_to_string(img, config="--psm 6")
 
-                    # ALWAYS SHOW CLEAN FIX BOX ONLY
+                    # Always show the structured fix box
                     solution = build_fix_box()
                     category = "dll_error"
 
                 else:
-                    solution = "OCR is disabled"
+                    solution = "<p>OCR is currently disabled.</p>"
 
             except Exception as e:
                 solution = """
-===============================
-        ⚠ ERROR
-===============================
-
-1. Restart server
-2. Upload clearer screenshot
-3. Check Tesseract installation
-===============================
-"""
+                <div class='fix-wrapper'>
+                    <div class='fix-tip' style='border-color:#fca5a5; background:#fef2f2; color:#991b1b;'>
+                        ⚠ <b>Error during OCR processing.</b><br>
+                        1. Restart the server.<br>
+                        2. Upload a clearer screenshot.<br>
+                        3. Make sure Tesseract is installed correctly.
+                    </div>
+                </div>"""
                 print("OCR ERROR:", e)
 
             finally:
@@ -140,19 +172,13 @@ def home():
 @app.route("/check")
 def check():
     try:
-        path = os.popen("which tesseract").read().strip()
+        path    = os.popen("which tesseract").read().strip()
         version = os.popen("tesseract --version").read().strip()
 
         if not path:
             return "Tesseract NOT FOUND in PATH"
 
-        return f"""
-Tesseract Path:
-{path}
-
-Tesseract Version:
-{version}
-"""
+        return f"Tesseract Path:\n{path}\n\nTesseract Version:\n{version}"
 
     except Exception as e:
         return f"Error checking tesseract: {str(e)}"
