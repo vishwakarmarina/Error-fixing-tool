@@ -7,6 +7,21 @@ app = Flask(__name__)
 # ---------------- OCR ENABLED ----------------
 OCR_ENABLED = True
 
+# ---------------- COMMON FIX DATA ----------------
+COMMON_STEPS = [
+    "Restart the program and try again",
+    "Restart your PC (fixes temporary DLL/runtime issues)",
+    "Run the program as Administrator",
+    "Reinstall the application showing the error",
+    "Check Windows Update and install latest updates"
+]
+
+COMMON_DLL_FIXES = [
+    "Install Microsoft Visual C++ Redistributable (2015–2022)",
+    "Install DirectX End-User Runtime",
+    "Run 'sfc /scannow' in Command Prompt (repairs system files)"
+]
+
 # ---------------- DATABASE ----------------
 def init_db():
     conn = sqlite3.connect("feedback.db")
@@ -38,19 +53,6 @@ def get_feedback():
     conn.close()
     return data
 
-# ---------------- ERROR DATABASE ----------------
-error_database = {
-    "vcruntime": "Install Microsoft Visual C++ Redistributable (2015–2022)",
-    "msvcp": "Install Microsoft Visual C++ Redistributable (all versions)",
-    "msvcr": "Install Microsoft Visual C++ Redistributable",
-    "d3dx": "Install DirectX End-User Runtime",
-    "xinput": "Install DirectX Runtime",
-    "dll not found": "Reinstall the software or install required Visual C++ + DirectX packages",
-    "0xc000007b": "Reinstall Visual C++ Redistributable + DirectX + restart system",
-    "api-ms-win": "Install latest Visual C++ Redistributable (2015–2022)",
-    "side-by-side": "Run SFC /scannow and reinstall Visual C++ Redistributable"
-}
-
 # ---------------- HOME ROUTE ----------------
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -74,23 +76,25 @@ def home():
                     img = Image.open(path)
                     text = pytesseract.image_to_string(img, config="--psm 6")
 
-                    low = text.lower().strip()
+                    solution = f"""
+🧾 Detected Text:
+{text}
 
-                    # ---------------- IMAGE QUALITY CHECK ----------------
-                    if len(low) < 5:
-                        solution = "Image is not clear. Please upload a clearer screenshot."
-                    else:
-                        found = False
+🛠 5 Basic Fixes:
+1. {COMMON_STEPS[0]}
+2. {COMMON_STEPS[1]}
+3. {COMMON_STEPS[2]}
+4. {COMMON_STEPS[3]}
+5. {COMMON_STEPS[4]}
 
-                        for k, v in error_database.items():
-                            if k in low:
-                                solution = v
-                                category = k
-                                found = True
-                                break
+📦 Common DLL Fixes:
+1. {COMMON_DLL_FIXES[0]}
+2. {COMMON_DLL_FIXES[1]}
+3. {COMMON_DLL_FIXES[2]}
 
-                        if not found:
-                            solution = "No known DLL error detected. Try clearer image or full error text."
+💡 Tip:
+If text is incorrect, upload a clearer or cropped screenshot of the error box.
+"""
 
                 else:
                     text = "OCR is turned off"
@@ -98,7 +102,15 @@ def home():
 
             except Exception as e:
                 text = "OCR processing failed"
-                solution = "Server OCR error (check Tesseract installation)"
+                solution = """
+OCR error occurred.
+
+Try:
+1. Restart server
+2. Check Tesseract installation
+3. Upload clearer image
+"""
+
                 print("OCR ERROR:", e)
 
             finally:
@@ -122,7 +134,7 @@ def home():
         feedbacks=feedbacks
     )
 
-# ---------------- CHECK ROUTE ----------------
+# ---------------- CHECK TESSERACT ----------------
 @app.route("/check")
 def check():
     try:
