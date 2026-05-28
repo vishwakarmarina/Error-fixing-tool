@@ -862,6 +862,133 @@
         .car-wrap:hover .car-road { background: #555; }
 
         /* ======================== */
+        /*   ✅ FIX BOX CARDS        */
+        /* ======================== */
+
+        .fix-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .fix-section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            border-left: 3px solid #f0ece4;
+            background: #0d0d0d;
+            color: #f0ece4;
+            border-bottom: 1px dashed #2a2a2a;
+        }
+
+        .fix-section-header.basic    { border-left-color: #f0ece4; }
+        .fix-section-header.advanced { border-left-color: #888; color: #aaa; }
+
+        .fix-section-icon { font-size: 14px; }
+
+        .fix-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .fix-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: #0d0d0d;
+            border: 1px solid #2a2a2a;
+            border-left: 3px solid #555;
+            padding: 12px 14px;
+            transition: border-left-color 0.25s ease,
+                        background 0.25s ease,
+                        transform 0.2s ease;
+            cursor: default;
+        }
+
+        .fix-card:hover {
+            border-left-color: #f0ece4;
+            background: #111;
+            transform: translateX(4px);
+        }
+
+        .fix-number {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border: 1px solid #555;
+            color: #f0ece4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier Prime', monospace;
+            font-weight: bold;
+            font-size: 13px;
+            letter-spacing: 0;
+            transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+        }
+
+        .fix-card:hover .fix-number {
+            background: #f0ece4;
+            color: #0d0d0d;
+            border-color: #f0ece4;
+        }
+
+        .fix-body { flex: 1; }
+
+        .fix-title {
+            font-family: 'Special Elite', cursive;
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: #f0ece4;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .fix-desc {
+            font-family: 'Courier Prime', monospace;
+            font-size: 13px;
+            color: #777;
+            line-height: 1.6;
+            transition: color 0.25s ease;
+        }
+
+        .fix-card:hover .fix-desc { color: #aaa; }
+
+        .fix-desc b    { color: #c8c3bb; font-weight: bold; }
+        .fix-desc code {
+            background: #1a1a1a;
+            color: #f0ece4;
+            padding: 1px 6px;
+            border: 1px solid #3a3a3a;
+            font-family: 'Courier Prime', monospace;
+            font-size: 12px;
+        }
+
+        .fix-tip {
+            border: 1px dashed #3a3a3a;
+            border-left: 3px solid #888;
+            padding: 12px 14px;
+            background: #0a0a0a;
+            font-family: 'Courier Prime', monospace;
+            font-size: 13px;
+            color: #777;
+            line-height: 1.6;
+            transition: border-left-color 0.25s ease, color 0.25s ease;
+            cursor: default;
+        }
+
+        .fix-tip:hover { border-left-color: #f0ece4; color: #aaa; }
+        .fix-tip b { color: #c8c3bb; }
+
+        /* ======================== */
         /*   FOOTER                 */
         /* ======================== */
 
@@ -976,10 +1103,11 @@
                 <pre>{{ text }}</pre>
             </div>
 
+            <!-- ✅ ONLY THIS CARD CHANGED: p → div with | safe filter -->
             <div class="card">
                 <span class="section-badge">[ Result ] Analysis</span>
                 <h3>🛠 Fix</h3>
-                <p>{{ solution }}</p>
+                <div>{{ solution | safe }}</div>
                 <h3>📌 Type</h3>
                 <p>{{ category }}</p>
             </div>
