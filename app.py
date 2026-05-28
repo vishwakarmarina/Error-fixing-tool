@@ -38,40 +38,43 @@ def get_feedback():
     conn.close()
     return data
 
-# ---------------- FIX TEMPLATES ----------------
-def build_solution():
+
+# ---------------- FIX BOX BUILDER ----------------
+def build_fix_box():
     return """
-🛠 DLL ERROR FIX GUIDE
+===============================
+        🛠 FIX BOX
+===============================
 
-🔹 STEP 1: Basic Fixes
-1. Restart the program
-2. Restart your PC
-3. Run the program as Administrator
-4. Reinstall the application
-5. Update Windows
+1. Restart the program completely
+2. Restart your PC to clear temporary DLL/runtime errors
+3. Run the application as Administrator
+4. Install Microsoft Visual C++ Redistributable (2015–2022)
+5. Install DirectX End-User Runtime
 
-🔹 STEP 2: DLL Fix (Most Important)
-1. Install Microsoft Visual C++ Redistributable (2015–2022)
-2. Install DirectX End-User Runtime
-3. Run System File Checker:
-   → Open CMD as Admin
+-------------------------------
+        ADVANCED FIXES
+-------------------------------
+
+1. Run Command Prompt as Admin
    → Type: sfc /scannow
 
-🔹 STEP 3: Advanced Fixes
-1. Update graphics drivers
-2. Reinstall affected software completely
-3. Install latest Windows updates
+2. Update Windows fully
 
-💡 NOTE:
-If error still exists, reinstall the program cleanly and restart system.
+3. Reinstall the software causing error
+
+===============================
+💡 Tip: Always restart PC after installing DLL packages
+===============================
 """
+
 
 # ---------------- HOME ROUTE ----------------
 @app.route("/", methods=["GET", "POST"])
 def home():
 
     text = ""
-    solution = "Upload screenshot to analyze error"
+    solution = "Upload screenshot to detect error"
     category = ""
 
     if request.method == "POST" and "image" in request.files:
@@ -88,26 +91,27 @@ def home():
 
                     img = Image.open(path)
 
-                    # OCR ONLY FOR INTERNAL USE (NOT SHOWN TO USER)
+                    # OCR only for internal processing
                     text = pytesseract.image_to_string(img, config="--psm 6")
 
-                    # ALWAYS SHOW CLEAN OUTPUT ONLY
-                    solution = build_solution()
+                    # ALWAYS SHOW CLEAN FIX BOX ONLY
+                    solution = build_fix_box()
                     category = "dll_error"
 
                 else:
-                    solution = "OCR is disabled. Enable OCR_ENABLED = True"
+                    solution = "OCR is disabled"
 
             except Exception as e:
                 solution = """
-🛠 ERROR PROCESSING IMAGE
+===============================
+        ⚠ ERROR
+===============================
 
-Try:
 1. Restart server
 2. Upload clearer screenshot
 3. Check Tesseract installation
+===============================
 """
-
                 print("OCR ERROR:", e)
 
             finally:
@@ -131,6 +135,7 @@ Try:
         feedbacks=feedbacks
     )
 
+
 # ---------------- CHECK TESSERACT ----------------
 @app.route("/check")
 def check():
@@ -152,6 +157,7 @@ Tesseract Version:
     except Exception as e:
         return f"Error checking tesseract: {str(e)}"
 
-# ---------------- RUN ----------------
+
+# ---------------- RUN APP ----------------
 if __name__ == "__main__":
     app.run(debug=True)
