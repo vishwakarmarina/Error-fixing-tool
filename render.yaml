@@ -2,8 +2,10 @@ services:
   - type: web
     name: error-fixing-tool
     env: python
+
     buildCommand: |
       apt-get update
       apt-get install -y tesseract-ocr
       pip install -r requirements.txt
+
     startCommand: gunicorn app:app
