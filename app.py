@@ -7,21 +7,6 @@ app = Flask(__name__)
 # ---------------- OCR ENABLED ----------------
 OCR_ENABLED = True
 
-# ---------------- COMMON FIX DATA ----------------
-COMMON_STEPS = [
-    "Restart the program and try again",
-    "Restart your PC (fixes temporary DLL/runtime issues)",
-    "Run the program as Administrator",
-    "Reinstall the application showing the error",
-    "Check Windows Update and install latest updates"
-]
-
-COMMON_DLL_FIXES = [
-    "Install Microsoft Visual C++ Redistributable (2015–2022)",
-    "Install DirectX End-User Runtime",
-    "Run 'sfc /scannow' in Command Prompt (repairs system files)"
-]
-
 # ---------------- DATABASE ----------------
 def init_db():
     conn = sqlite3.connect("feedback.db")
@@ -53,12 +38,40 @@ def get_feedback():
     conn.close()
     return data
 
+# ---------------- FIX TEMPLATES ----------------
+def build_solution():
+    return """
+🛠 DLL ERROR FIX GUIDE
+
+🔹 STEP 1: Basic Fixes
+1. Restart the program
+2. Restart your PC
+3. Run the program as Administrator
+4. Reinstall the application
+5. Update Windows
+
+🔹 STEP 2: DLL Fix (Most Important)
+1. Install Microsoft Visual C++ Redistributable (2015–2022)
+2. Install DirectX End-User Runtime
+3. Run System File Checker:
+   → Open CMD as Admin
+   → Type: sfc /scannow
+
+🔹 STEP 3: Advanced Fixes
+1. Update graphics drivers
+2. Reinstall affected software completely
+3. Install latest Windows updates
+
+💡 NOTE:
+If error still exists, reinstall the program cleanly and restart system.
+"""
+
 # ---------------- HOME ROUTE ----------------
 @app.route("/", methods=["GET", "POST"])
 def home():
 
     text = ""
-    solution = "Upload image to detect error"
+    solution = "Upload screenshot to analyze error"
     category = ""
 
     if request.method == "POST" and "image" in request.files:
@@ -74,41 +87,25 @@ def home():
                     from PIL import Image
 
                     img = Image.open(path)
+
+                    # OCR ONLY FOR INTERNAL USE (NOT SHOWN TO USER)
                     text = pytesseract.image_to_string(img, config="--psm 6")
 
-                    solution = f"""
-🧾 Detected Text:
-{text}
-
-🛠 5 Basic Fixes:
-1. {COMMON_STEPS[0]}
-2. {COMMON_STEPS[1]}
-3. {COMMON_STEPS[2]}
-4. {COMMON_STEPS[3]}
-5. {COMMON_STEPS[4]}
-
-📦 Common DLL Fixes:
-1. {COMMON_DLL_FIXES[0]}
-2. {COMMON_DLL_FIXES[1]}
-3. {COMMON_DLL_FIXES[2]}
-
-💡 Tip:
-If text is incorrect, upload a clearer or cropped screenshot of the error box.
-"""
+                    # ALWAYS SHOW CLEAN OUTPUT ONLY
+                    solution = build_solution()
+                    category = "dll_error"
 
                 else:
-                    text = "OCR is turned off"
-                    solution = "Enable OCR_ENABLED = True"
+                    solution = "OCR is disabled. Enable OCR_ENABLED = True"
 
             except Exception as e:
-                text = "OCR processing failed"
                 solution = """
-OCR error occurred.
+🛠 ERROR PROCESSING IMAGE
 
 Try:
 1. Restart server
-2. Check Tesseract installation
-3. Upload clearer image
+2. Upload clearer screenshot
+3. Check Tesseract installation
 """
 
                 print("OCR ERROR:", e)
@@ -155,6 +152,6 @@ Tesseract Version:
     except Exception as e:
         return f"Error checking tesseract: {str(e)}"
 
-# ---------------- RUN APP ----------------
+# ---------------- RUN ----------------
 if __name__ == "__main__":
     app.run(debug=True)
