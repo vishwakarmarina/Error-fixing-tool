@@ -1090,7 +1090,7 @@
 
                 <div class="btn-divider">— or —</div>
 
-                <!-- ✅ BG REMOVER BUTTON — processes image in browser -->
+                <!-- ✅ BG REMOVER BUTTON — downloads image & opens remove.bg -->
                 <button type="button" id="btn-bgremove">✂ Remove Background</button>
 
                 <!-- ✅ RESULT SHOWN HERE -->
@@ -1371,31 +1371,15 @@
         setTimeout(() => dot.remove(), 600);
     });
 
-</script>
+    /* ── BG REMOVER — download image & open remove.bg ── */
+    document.getElementById('btn-bgremove').addEventListener('click', function(e) {
 
-<!-- ✅ BG REMOVER — runs fully in browser, no API key needed -->
-<script type="module">
-    import { removeBackground } from
-        'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/web/index.js';
+        /* ripple animation */
+        addRipple(e);
 
-    const bgBtn      = document.getElementById('btn-bgremove');
-    const fileInput  = document.getElementById('main-file-input');
-    const resultArea = document.getElementById('bg-result-area');
-
-    bgBtn.addEventListener('click', async function(e) {
-
-        /* ripple + pulse */
-        const ripple = document.createElement('span');
-        ripple.classList.add('ripple');
-        const rect = bgBtn.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-        ripple.style.top  = (e.clientY - rect.top  - size / 2) + 'px';
-        bgBtn.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 600);
-
-        const file = fileInput.files[0];
+        const fileInput  = document.getElementById('main-file-input');
+        const resultArea = document.getElementById('bg-result-area');
+        const file       = fileInput.files[0];
 
         if (!file) {
             resultArea.style.display = 'block';
@@ -1404,34 +1388,32 @@
             return;
         }
 
-        /* show loading */
-        bgBtn.disabled = true;
-        bgBtn.textContent = 'Processing...';
+        /* Convert the uploaded image to a blob URL and auto-download it,
+           so the user has it ready to drop straight into remove.bg */
+        const objectURL = URL.createObjectURL(file);
+
+        /* Trigger download of the uploaded screenshot */
+        const dlLink = document.createElement('a');
+        dlLink.href     = objectURL;
+        dlLink.download = file.name || 'joy-screenshot.png';
+        document.body.appendChild(dlLink);
+        dlLink.click();
+        document.body.removeChild(dlLink);
+
+        /* Open remove.bg in a new tab */
+        window.open('https://www.remove.bg/', '_blank');
+
+        /* Show helper message */
         resultArea.style.display = 'block';
         resultArea.innerHTML =
-            '<p class="bg-status"><span class="bg-spinner"></span> Removing background — please wait...</p>';
+            '<p class="bg-status">✔ Your image was downloaded &amp; remove.bg opened!</p>' +
+            '<p class="bg-status" style="font-size:11px; margin-top:4px;">' +
+            'Simply drag or upload the downloaded file on remove.bg to remove its background.</p>';
 
-        try {
-            const blob = await removeBackground(file);
-            const url  = URL.createObjectURL(blob);
-
-            resultArea.innerHTML = `
-                <p class="bg-status">✔ Background Removed Successfully!</p>
-                <img src="${url}" alt="Background Removed">
-                <br>
-                <a href="${url}" download="joy-no-bg.png" class="btn-download-result">
-                    ⬇ Download Image
-                </a>
-            `;
-        } catch (err) {
-            resultArea.innerHTML =
-                '<p class="bg-status">✘ Could not process image. Try a different file.</p>';
-            console.error(err);
-        }
-
-        bgBtn.disabled = false;
-        bgBtn.textContent = '✂ Remove Background';
+        /* Clean up object URL after a short delay */
+        setTimeout(() => URL.revokeObjectURL(objectURL), 10000);
     });
+
 </script>
 
 </body>
