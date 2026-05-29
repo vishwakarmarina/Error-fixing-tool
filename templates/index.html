@@ -21,7 +21,6 @@
             width: 100%;
         }
 
-        /* ✅ BRAND BAR */
         .brand-bar {
             display: flex;
             align-items: center;
@@ -41,10 +40,7 @@
             transition: letter-spacing 0.4s ease, color 0.3s ease;
         }
 
-        .brand-name:hover {
-            letter-spacing: 18px;
-            color: #ffffff;
-        }
+        .brand-name:hover { letter-spacing: 18px; color: #ffffff; }
 
         .brand-tagline {
             font-family: 'Courier Prime', monospace;
@@ -59,11 +55,7 @@
 
         .brand-tagline:hover { color: #888; }
 
-        .brand-divider {
-            color: #2a2a2a;
-            font-size: 20px;
-            letter-spacing: 2px;
-        }
+        .brand-divider { color: #2a2a2a; font-size: 20px; letter-spacing: 2px; }
 
         h1 {
             text-align: center;
@@ -105,7 +97,6 @@
             padding: 18px;
         }
 
-        /* ✅ SCROLL FADE */
         .card {
             background: #111;
             border: 1px solid #2e2e2e;
@@ -192,7 +183,6 @@
             letter-spacing: 5px;
         }
 
-        /* ✅ BG REMOVER BUTTON */
         #btn-bgremove {
             background: transparent;
             color: #f0ece4;
@@ -213,11 +203,7 @@
             letter-spacing: 4px;
         }
 
-        #btn-bgremove:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            letter-spacing: 2px;
-        }
+        #btn-bgremove:disabled { opacity: 0.5; cursor: not-allowed; letter-spacing: 2px; }
 
         .btn-divider {
             text-align: center;
@@ -229,7 +215,6 @@
             margin: 8px 0 2px 0;
         }
 
-        /* ✅ BG RESULT AREA */
         .bg-result-area {
             display: none;
             margin-top: 14px;
@@ -282,7 +267,6 @@
             letter-spacing: 4px;
         }
 
-        /* ✅ LOADING SPINNER */
         .bg-spinner {
             display: inline-block;
             width: 20px;
@@ -295,9 +279,7 @@
             vertical-align: middle;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         #btn-feedback {
             background: transparent;
@@ -323,9 +305,7 @@
             pointer-events: none;
         }
 
-        @keyframes ripple-anim {
-            to { transform: scale(4); opacity: 0; }
-        }
+        @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
 
         @keyframes bounce-click {
             0%   { transform: scale(1); }
@@ -358,18 +338,9 @@
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        textarea:hover, select:hover {
-            border-color: #888;
-            box-shadow: 2px 2px 0px #333;
-        }
-
+        textarea:hover, select:hover { border-color: #888; box-shadow: 2px 2px 0px #333; }
         select { cursor: pointer; }
-
-        select:focus, textarea:focus {
-            outline: none;
-            border-color: #f0ece4;
-            box-shadow: 2px 2px 0px #555;
-        }
+        select:focus, textarea:focus { outline: none; border-color: #f0ece4; box-shadow: 2px 2px 0px #555; }
 
         .label, h3 {
             font-weight: bold;
@@ -382,16 +353,11 @@
             margin-bottom: 12px;
             font-size: 22px;
             line-height: 1.4;
-            transition: letter-spacing 0.3s ease, color 0.3s ease,
-                        border-bottom-color 0.3s ease;
+            transition: letter-spacing 0.3s ease, color 0.3s ease, border-bottom-color 0.3s ease;
             cursor: default;
         }
 
-        h3:hover {
-            letter-spacing: 5px;
-            color: #ffffff;
-            border-bottom-color: #888;
-        }
+        h3:hover { letter-spacing: 5px; color: #ffffff; border-bottom-color: #888; }
 
         pre, p {
             font-weight: 500;
@@ -436,10 +402,7 @@
 
         .download a:active { transform: scale(0.96); }
 
-        .community {
-            border-left: 3px solid #f0ece4;
-            background: #0d0d0d;
-        }
+        .community { border-left: 3px solid #f0ece4; background: #0d0d0d; }
 
         .reddit-link {
             display: block;
@@ -481,17 +444,11 @@
             font-family: 'Courier Prime', monospace;
             color: #aaa;
             letter-spacing: 1px;
-            transition: background 0.2s ease, color 0.2s ease,
-                        border-color 0.2s ease, transform 0.2s ease;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
             cursor: default;
         }
 
-        .tag:hover {
-            background: #f0ece4;
-            color: #0d0d0d;
-            border-color: #f0ece4;
-            transform: translateY(-3px);
-        }
+        .tag:hover { background: #f0ece4; color: #0d0d0d; border-color: #f0ece4; transform: translateY(-3px); }
 
         .feedback-box {
             border-top: 1px dashed #2e2e2e;
@@ -503,24 +460,9 @@
 
         .feedback-box:hover { background: #161616; padding-left: 10px; }
 
-        .tag-positive {
-            color: #b0b0b0;
-            font-weight: bold;
-            font-family: 'Courier Prime', monospace;
-            letter-spacing: 1px;
-            transition: color 0.2s ease;
-        }
-
+        .tag-positive { color: #b0b0b0; font-weight: bold; font-family: 'Courier Prime', monospace; letter-spacing: 1px; transition: color 0.2s ease; }
         .tag-positive:hover { color: #ffffff; }
-
-        .tag-negative {
-            color: #666;
-            font-weight: bold;
-            font-family: 'Courier Prime', monospace;
-            letter-spacing: 1px;
-            transition: color 0.2s ease;
-        }
-
+        .tag-negative { color: #666; font-weight: bold; font-family: 'Courier Prime', monospace; letter-spacing: 1px; transition: color 0.2s ease; }
         .tag-negative:hover { color: #aaa; }
 
         .section-badge {
@@ -534,8 +476,7 @@
             text-transform: uppercase;
             padding: 3px 10px;
             margin-bottom: 12px;
-            transition: background 0.2s ease, color 0.2s ease,
-                        letter-spacing 0.2s ease, padding 0.2s ease;
+            transition: background 0.2s ease, color 0.2s ease, letter-spacing 0.2s ease, padding 0.2s ease;
             cursor: default;
         }
 
@@ -562,10 +503,6 @@
             0%   { opacity: 0.8; transform: scale(1); }
             100% { opacity: 0; transform: scale(0.1); }
         }
-
-        /* ======================== */
-        /*   RIGHT SIDEBAR          */
-        /* ======================== */
 
         .vintage-divider {
             text-align: center;
@@ -641,8 +578,7 @@
 
         .vintage-stamp::before { top: 6px; left: 8px; }
         .vintage-stamp::after  { bottom: 6px; right: 8px; }
-        .vintage-stamp:hover::before,
-        .vintage-stamp:hover::after { color: #f0ece4; }
+        .vintage-stamp:hover::before, .vintage-stamp:hover::after { color: #f0ece4; }
 
         .vintage-stat {
             display: flex;
@@ -685,11 +621,7 @@
             cursor: default;
         }
 
-        .vintage-quote:hover {
-            border-left-color: #f0ece4;
-            background: #141414;
-            padding-left: 20px;
-        }
+        .vintage-quote:hover { border-left-color: #f0ece4; background: #141414; padding-left: 20px; }
 
         .vintage-quote p {
             font-family: 'Special Elite', cursive;
@@ -716,11 +648,7 @@
 
         .vintage-quote:hover .quote-author { color: #888; }
 
-        .vintage-checklist {
-            list-style: none;
-            padding: 0;
-            margin: 10px 0 0 0;
-        }
+        .vintage-checklist { list-style: none; padding: 0; margin: 10px 0 0 0; }
 
         .vintage-checklist li {
             font-family: 'Courier Prime', monospace;
@@ -774,16 +702,7 @@
             to   { transform: translateX(-100%); }
         }
 
-        /* ======================== */
-        /*   VINTAGE CAR            */
-        /* ======================== */
-
-        .car-card {
-            text-align: center;
-            border-left: 3px solid #f0ece4;
-            background: #0a0a0a;
-            padding: 20px 16px;
-        }
+        .car-card { text-align: center; border-left: 3px solid #f0ece4; background: #0a0a0a; padding: 20px 16px; }
 
         .car-wrap {
             padding: 10px 0 0 0;
@@ -818,20 +737,13 @@
         .car-support-msg::before { content: '✦'; margin-right: 8px; color: #888; }
         .car-support-msg::after  { content: '✦'; margin-left: 8px; color: #888; }
 
-        .car-wrap:hover .car-support-msg {
-            opacity: 1;
-            transform: translate(-50%, -65%);
-        }
-
+        .car-wrap:hover .car-support-msg { opacity: 1; transform: translate(-50%, -65%); }
         .car-wrap:hover .car-wheel { animation: wheel-spin 0.7s linear infinite; }
         .car-wrap:hover .smoke     { animation: smoke-puff 1s ease-out infinite; }
 
         .smoke { opacity: 0; }
 
-        @keyframes wheel-spin {
-            from { transform: rotate(0deg); }
-            to   { transform: rotate(360deg); }
-        }
+        @keyframes wheel-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         @keyframes smoke-puff {
             0%   { opacity: 0.6; transform: translate(0,0) scale(1); }
@@ -851,25 +763,10 @@
 
         .car-wrap:hover .car-label { color: #888; letter-spacing: 6px; }
 
-        .car-road {
-            width: 100%;
-            height: 2px;
-            background: #2a2a2a;
-            margin-top: 4px;
-            transition: background 0.3s ease;
-        }
-
+        .car-road { width: 100%; height: 2px; background: #2a2a2a; margin-top: 4px; transition: background 0.3s ease; }
         .car-wrap:hover .car-road { background: #555; }
 
-        /* ======================== */
-        /*   ✅ FIX BOX CARDS        */
-        /* ======================== */
-
-        .fix-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
+        .fix-wrapper { display: flex; flex-direction: column; gap: 18px; }
 
         .fix-section-header {
             display: flex;
@@ -890,14 +787,9 @@
 
         .fix-section-header.basic    { border-left-color: #f0ece4; }
         .fix-section-header.advanced { border-left-color: #888; color: #aaa; }
-
         .fix-section-icon { font-size: 14px; }
 
-        .fix-cards {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        .fix-cards { display: flex; flex-direction: column; gap: 8px; }
 
         .fix-card {
             display: flex;
@@ -907,17 +799,11 @@
             border: 1px solid #2a2a2a;
             border-left: 3px solid #555;
             padding: 12px 14px;
-            transition: border-left-color 0.25s ease,
-                        background 0.25s ease,
-                        transform 0.2s ease;
+            transition: border-left-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
             cursor: default;
         }
 
-        .fix-card:hover {
-            border-left-color: #f0ece4;
-            background: #111;
-            transform: translateX(4px);
-        }
+        .fix-card:hover { border-left-color: #f0ece4; background: #111; transform: translateX(4px); }
 
         .fix-number {
             flex-shrink: 0;
@@ -935,11 +821,7 @@
             transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
         }
 
-        .fix-card:hover .fix-number {
-            background: #f0ece4;
-            color: #0d0d0d;
-            border-color: #f0ece4;
-        }
+        .fix-card:hover .fix-number { background: #f0ece4; color: #0d0d0d; border-color: #f0ece4; }
 
         .fix-body { flex: 1; }
 
@@ -961,8 +843,7 @@
         }
 
         .fix-card:hover .fix-desc { color: #aaa; }
-
-        .fix-desc b    { color: #c8c3bb; font-weight: bold; }
+        .fix-desc b { color: #c8c3bb; font-weight: bold; }
         .fix-desc code {
             background: #1a1a1a;
             color: #f0ece4;
@@ -987,10 +868,6 @@
 
         .fix-tip:hover { border-left-color: #f0ece4; color: #aaa; }
         .fix-tip b { color: #c8c3bb; }
-
-        /* ======================== */
-        /*   FOOTER                 */
-        /* ======================== */
 
         .site-footer {
             border-top: 2px solid #1e1e1e;
@@ -1026,24 +903,171 @@
 
         .footer-copy:hover { color: #555; }
 
+        @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeUp  { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+
         /* ======================== */
-        /*   ANIMATIONS             */
+        /*   CHATBOT                */
         /* ======================== */
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to   { opacity: 1; }
+        #joy-chat-bubble {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 54px;
+            height: 54px;
+            background: #f0ece4;
+            border: 2px solid #f0ece4;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10000;
+            font-size: 22px;
+            box-shadow: 4px 4px 0px #2a2a2a;
+            transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
         }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 1; transform: translateY(0); }
+        #joy-chat-bubble:hover {
+            background: #0d0d0d;
+            color: #f0ece4;
+            box-shadow: 6px 6px 0px #555;
+            transform: translateY(-3px);
+            letter-spacing: 0;
         }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-15px); }
-            to   { opacity: 1; transform: translateY(0); }
+        #joy-chat-window {
+            position: fixed;
+            bottom: 94px;
+            right: 28px;
+            width: 320px;
+            max-height: 460px;
+            background: #0d0d0d;
+            border: 1px solid #2e2e2e;
+            border-left: 3px solid #f0ece4;
+            box-shadow: 6px 6px 0px #1a1a1a;
+            display: none;
+            flex-direction: column;
+            z-index: 9999;
+            font-family: 'Courier Prime', monospace;
         }
+
+        #joy-chat-window.open { display: flex; animation: fadeUp 0.25s ease; }
+
+        .chat-header {
+            background: #080808;
+            border-bottom: 1px solid #2a2a2a;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header-title {
+            font-family: 'Special Elite', cursive;
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #f0ece4;
+        }
+
+        .chat-header-close {
+            cursor: pointer;
+            font-size: 18px;
+            color: #555;
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            font-family: 'Courier Prime', monospace;
+            letter-spacing: 0;
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+
+        .chat-header-close:hover { color: #f0ece4; background: none; box-shadow: none; letter-spacing: 0; }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-messages::-webkit-scrollbar { width: 4px; }
+        .chat-messages::-webkit-scrollbar-track { background: #0d0d0d; }
+        .chat-messages::-webkit-scrollbar-thumb { background: #2a2a2a; }
+
+        .chat-msg {
+            max-width: 88%;
+            padding: 9px 12px;
+            font-size: 12px;
+            line-height: 1.6;
+            letter-spacing: 0.3px;
+            border: 1px solid #2a2a2a;
+            color: #c8c3bb;
+        }
+
+        .chat-msg:hover { color: #c8c3bb; transform: none; }
+
+        .chat-msg.bot {
+            background: #111;
+            border-left: 3px solid #888;
+            align-self: flex-start;
+        }
+
+        .chat-msg.user {
+            background: #1a1a1a;
+            border-left: 3px solid #f0ece4;
+            align-self: flex-end;
+            color: #f0ece4;
+            text-align: right;
+        }
+
+        .chat-input-row {
+            display: flex;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        #joy-chat-input {
+            flex: 1;
+            background: #080808;
+            border: none;
+            border-right: 1px solid #2a2a2a;
+            color: #d4cfc7;
+            font-family: 'Courier Prime', monospace;
+            font-size: 12px;
+            padding: 10px 12px;
+            outline: none;
+            margin: 0;
+            border-radius: 0;
+            resize: none;
+            letter-spacing: 0.3px;
+            box-shadow: none;
+        }
+
+        #joy-chat-input:hover, #joy-chat-input:focus { border-color: #2a2a2a; box-shadow: none; }
+
+        #joy-chat-send {
+            background: #f0ece4;
+            color: #0d0d0d;
+            border: none;
+            padding: 10px 16px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            letter-spacing: 0;
+            margin: 0;
+            border-radius: 0;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        #joy-chat-send:hover { background: #2a2a2a; color: #f0ece4; box-shadow: none; letter-spacing: 0; }
 
         @media (max-width: 900px) {
             .container { grid-template-columns: 1fr; padding: 12px; }
@@ -1058,6 +1082,8 @@
             .card { padding: 12px; }
             .brand-name { font-size: 18px; letter-spacing: 6px; }
             .car-support-msg { font-size: 10px; letter-spacing: 2px; padding: 8px 10px; }
+            #joy-chat-window { width: calc(100vw - 32px); right: 16px; }
+            #joy-chat-bubble { right: 16px; bottom: 16px; }
         }
 
     </style>
@@ -1065,7 +1091,7 @@
 
 <body>
 
-    <!-- ✅ BRAND BAR -->
+    <!-- BRAND BAR -->
     <div class="brand-bar">
         <span class="brand-name">JOY</span>
         <span class="brand-divider">✦ · ✦ · ✦</span>
@@ -1082,18 +1108,15 @@
             <div class="card">
                 <span class="section-badge">[ Step 1 ] Upload</span>
                 <form action="/" method="POST" enctype="multipart/form-data">
-                    <input type="file" name="image" id="main-file-input"
-                           accept="image/*" required>
+                    <input type="file" name="image" id="main-file-input" accept="image/*" required>
                     <br>
                     <input type="submit" value="⟶ Scan Error" id="btn-scan">
                 </form>
 
                 <div class="btn-divider">— or —</div>
 
-                <!-- ✅ BG REMOVER BUTTON — downloads image & opens remove.bg -->
                 <button type="button" id="btn-bgremove">✂ Remove Background</button>
 
-                <!-- ✅ RESULT SHOWN HERE -->
                 <div class="bg-result-area" id="bg-result-area"></div>
             </div>
 
@@ -1103,7 +1126,6 @@
                 <pre>{{ text }}</pre>
             </div>
 
-            <!-- ✅ ONLY THIS CARD CHANGED: p → div with | safe filter -->
             <div class="card">
                 <span class="section-badge">[ Result ] Analysis</span>
                 <h3>🛠 Fix</h3>
@@ -1118,8 +1140,7 @@
                 <span class="tag">dll error</span>
                 <span class="tag">directx</span>
                 <span class="tag">vcruntime</span>
-                <a class="reddit-link" target="_blank"
-                   href="https://www.reddit.com/search/?q=dll%20error%20fix">
+                <a class="reddit-link" target="_blank" href="https://www.reddit.com/search/?q=dll%20error%20fix">
                    🔴 Reddit Discussions ⟶
                 </a>
             </div>
@@ -1127,10 +1148,8 @@
             <div class="card download">
                 <span class="section-badge">[ Downloads ]</span>
                 <h3>⬇ Official Downloads</h3>
-                <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist"
-                   target="_blank">⬇ VC++ Redistributable</a>
-                <a href="https://www.microsoft.com/en-us/download/details.aspx?id=35"
-                   target="_blank">⬇ DirectX Runtime</a>
+                <a href="https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist" target="_blank">⬇ VC++ Redistributable</a>
+                <a href="https://www.microsoft.com/en-us/download/details.aspx?id=35" target="_blank">⬇ DirectX Runtime</a>
             </div>
 
             <div class="card">
@@ -1188,8 +1207,7 @@
                 <span class="section-badge">[ Garage ]</span>
                 <div class="car-wrap">
                     <div class="car-support-msg">Please Support Us</div>
-                    <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg"
-                         width="100%" style="overflow:visible;">
+                    <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" width="100%" style="overflow:visible;">
                         <circle class="smoke" cx="34" cy="88" r="5" fill="#2a2a2a"/>
                         <circle class="smoke" cx="28" cy="82" r="4" fill="#222" style="animation-delay:0.2s"/>
                         <circle class="smoke" cx="22" cy="76" r="3" fill="#1a1a1a" style="animation-delay:0.4s"/>
@@ -1302,10 +1320,28 @@
 
     </div>
 
-    <!-- ✅ FOOTER -->
+    <!-- FOOTER -->
     <div class="site-footer">
         <span class="footer-brand">JOY</span>
         <span class="footer-copy">© 2024 JOY · AI Error Fixer Pro · All Rights Reserved</span>
+    </div>
+
+    <!-- CHATBOT BUBBLE -->
+    <div id="joy-chat-bubble" title="JOY Assistant">💬</div>
+
+    <!-- CHATBOT WINDOW -->
+    <div id="joy-chat-window">
+        <div class="chat-header">
+            <span class="chat-header-title">✦ JOY Assistant</span>
+            <button class="chat-header-close" id="joy-chat-close">✕</button>
+        </div>
+        <div class="chat-messages" id="joy-chat-messages">
+            <div class="chat-msg bot">Hello! I am the JOY Assistant. Ask me anything about this website and I will help you.</div>
+        </div>
+        <div class="chat-input-row">
+            <input type="text" id="joy-chat-input" placeholder="Ask about JOY..." maxlength="200" />
+            <button id="joy-chat-send">⟶</button>
+        </div>
     </div>
 
 <script>
@@ -1354,12 +1390,8 @@
     const scanBtn     = document.getElementById('btn-scan');
     const feedbackBtn = document.getElementById('btn-feedback');
 
-    if (scanBtn) {
-        scanBtn.addEventListener('click', function(e) { addRipple(e); addBounce(this); });
-    }
-    if (feedbackBtn) {
-        feedbackBtn.addEventListener('click', function(e) { addRipple(e); addPulse(this); });
-    }
+    if (scanBtn)     scanBtn.addEventListener('click',     function(e) { addRipple(e); addBounce(this); });
+    if (feedbackBtn) feedbackBtn.addEventListener('click', function(e) { addRipple(e); addPulse(this); });
 
     /* ── CURSOR TRAIL ── */
     document.addEventListener('mousemove', function(e) {
@@ -1371,28 +1403,20 @@
         setTimeout(() => dot.remove(), 600);
     });
 
-    /* ── BG REMOVER — download image & open remove.bg ── */
+    /* ── BG REMOVER ── */
     document.getElementById('btn-bgremove').addEventListener('click', function(e) {
-
-        /* ripple animation */
         addRipple(e);
-
         const fileInput  = document.getElementById('main-file-input');
         const resultArea = document.getElementById('bg-result-area');
         const file       = fileInput.files[0];
 
         if (!file) {
             resultArea.style.display = 'block';
-            resultArea.innerHTML =
-                '<p class="bg-status">✘ Please upload an image first!</p>';
+            resultArea.innerHTML = '<p class="bg-status">✘ Please upload an image first!</p>';
             return;
         }
 
-        /* Convert the uploaded image to a blob URL and auto-download it,
-           so the user has it ready to drop straight into remove.bg */
         const objectURL = URL.createObjectURL(file);
-
-        /* Trigger download of the uploaded screenshot */
         const dlLink = document.createElement('a');
         dlLink.href     = objectURL;
         dlLink.download = file.name || 'joy-screenshot.png';
@@ -1400,18 +1424,127 @@
         dlLink.click();
         document.body.removeChild(dlLink);
 
-        /* Open remove.bg in a new tab */
         window.open('https://www.remove.bg/', '_blank');
 
-        /* Show helper message */
         resultArea.style.display = 'block';
         resultArea.innerHTML =
             '<p class="bg-status">✔ Your image was downloaded &amp; remove.bg opened!</p>' +
             '<p class="bg-status" style="font-size:11px; margin-top:4px;">' +
             'Simply drag or upload the downloaded file on remove.bg to remove its background.</p>';
 
-        /* Clean up object URL after a short delay */
         setTimeout(() => URL.revokeObjectURL(objectURL), 10000);
+    });
+
+    /* ── CHATBOT ── */
+    const bubble   = document.getElementById('joy-chat-bubble');
+    const chatWin  = document.getElementById('joy-chat-window');
+    const closeBtn = document.getElementById('joy-chat-close');
+    const msgBox   = document.getElementById('joy-chat-messages');
+    const chatInput= document.getElementById('joy-chat-input');
+    const sendBtn  = document.getElementById('joy-chat-send');
+
+    bubble.addEventListener('click', function() {
+        chatWin.classList.toggle('open');
+        if (chatWin.classList.contains('open')) chatInput.focus();
+    });
+
+    closeBtn.addEventListener('click', function() {
+        chatWin.classList.remove('open');
+    });
+
+    function addMsg(text, who) {
+        const div = document.createElement('div');
+        div.classList.add('chat-msg', who);
+        div.textContent = text;
+        msgBox.appendChild(div);
+        msgBox.scrollTop = msgBox.scrollHeight;
+    }
+
+    function getBotReply(q) {
+        q = q.toLowerCase().trim();
+
+        /* What is JOY / about */
+        if (q.match(/what is joy|what is this|about joy|about this site|about this website|what does this (site|website|page) do|purpose|explain joy/)) {
+            return "JOY — AI Error Fixer Pro is a website that helps you fix Windows PC errors. You upload a screenshot of your error message, and JOY detects the error text, identifies the problem type, and gives you a fix.";
+        }
+
+        /* How to use / upload / scan */
+        if (q.match(/how (to use|do i use|does it work|to fix|do i fix)|upload|scan|step 1|get started|start/)) {
+            return "To use JOY: (1) Click 'Choose File' to upload a screenshot of your error. (2) Click 'Scan Error'. JOY will read the error text and show you the fix automatically.";
+        }
+
+        /* Background remover */
+        if (q.match(/background|bg remov|remove bg|✂|remove background/)) {
+            return "The 'Remove Background' button downloads your uploaded image and opens remove.bg in a new tab. Just drag your downloaded image onto remove.bg to remove its background instantly.";
+        }
+
+        /* Feedback */
+        if (q.match(/feedback|review|rate|thumbs|opinion|submit feedback/)) {
+            return "You can submit feedback using the Feedback section. Choose Positive or Negative, type your comment, and click 'Submit Feedback'. Your feedback is shown in the User Feedback log below.";
+        }
+
+        /* Downloads */
+        if (q.match(/download|vc\+\+|directx|redistributable|vcruntime|dll file/)) {
+            return "JOY provides official download links for VC++ Redistributable and DirectX Runtime — the two most common fixes for DLL errors on Windows. Always use official sources only.";
+        }
+
+        /* Safety tips */
+        if (q.match(/safe|safety|tip|warning|danger|random dll|official/)) {
+            return "Safety tip from JOY: Never download DLL files from random websites. Always use official Microsoft sources. JOY links only to official downloads to keep you safe.";
+        }
+
+        /* Stats */
+        if (q.match(/stat|how many|errors fixed|users|success rate|numbers|record/)) {
+            return "JOY has fixed 4,231 errors, identified 38 DLL types, helped 1,842 users, and maintains a 96% success rate. These stats are shown in the Stats section on the right side.";
+        }
+
+        /* Community / Reddit */
+        if (q.match(/community|reddit|forum|discussion|other users/)) {
+            return "JOY has a Community Fix section with common error tags like DLL error, DirectX, and VCRuntime. You can click the Reddit link to find discussions and fixes from other users too.";
+        }
+
+        /* Checklist */
+        if (q.match(/checklist|before|prepare|what should i do first|steps before/)) {
+            return "Before fixing an error, JOY recommends: screenshot the error, note which app caused it, make sure Windows is up to date, use only official downloads, and restart your PC after installing any fix.";
+        }
+
+        /* Error types / DLL */
+        if (q.match(/what error|error type|dll|vcruntime|msvcp|d3dx|xinput|openal|msvcr|directx error/)) {
+            return "JOY handles common Windows DLL errors like VCRUNTIME140.DLL, MSVCP140.DLL, D3DX9_43.DLL, XINPUT1_3.DLL, OPENAL32.DLL, MSVCR100.DLL, and more. Upload your screenshot and JOY will identify it.";
+        }
+
+        /* Contact / support */
+        if (q.match(/contact|support|help|email|reach|talk to/)) {
+            return "For help with JOY, you can use the Feedback form on this page to send your message. The Community section also links to Reddit where you can find further support.";
+        }
+
+        /* Hello / hi / hey */
+        if (q.match(/^(hi|hello|hey|hiya|sup|yo|greet)/)) {
+            return "Hello! I am the JOY Assistant. I can help you understand how to use this website. Ask me anything about JOY Error Fixer!";
+        }
+
+        /* Thanks */
+        if (q.match(/thank|thanks|great|awesome|good job|nice|perfect/)) {
+            return "You are welcome! If you have more questions about JOY, feel free to ask anytime.";
+        }
+
+        /* Unrelated — catch all */
+        return "I only provide help for the JOY website. Please ask me about the features, how to use it, error fixes, downloads, or anything related to JOY Error Fixer Pro.";
+    }
+
+    function handleSend() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+        addMsg(text, 'user');
+        chatInput.value = '';
+        setTimeout(function() {
+            addMsg(getBotReply(text), 'bot');
+        }, 300);
+    }
+
+    sendBtn.addEventListener('click', handleSend);
+    chatInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') handleSend();
     });
 
 </script>
