@@ -1165,6 +1165,19 @@
                 </form>
             </div>
 
+            <div class="card" id="jpg-pdf-card">
+                <span class="section-badge">[ Tool ] JPG to PDF</span>
+                <h3>🖼 JPG → PDF</h3>
+                <p style="font-size:13px; color:#777; margin-top:0;">Upload one or more JPG/PNG images and convert them to a single PDF instantly — right in your browser, no upload to any server.</p>
+                <input type="file" id="pdf-file-input" accept="image/*" multiple>
+                <div id="pdf-preview" style="display:none; margin-top:12px; display:none; flex-wrap:wrap; gap:8px;"></div>
+                <button type="button" id="btn-convert-pdf" style="width:100%; margin-top:12px; background:#f0ece4; color:#0d0d0d; border:2px solid #f0ece4; font-size:14px; padding:12px;">⟶ Convert to PDF</button>
+                <div id="pdf-result" style="display:none; margin-top:14px; border:1px dashed #3a3a3a; padding:14px; background:#0a0a0a; text-align:center;">
+                    <p class="bg-status" id="pdf-status"></p>
+                    <a id="pdf-download-link" class="btn-download-result" style="display:none;">⬇ Download PDF</a>
+                </div>
+            </div>
+
             <div class="card">
                 <span class="section-badge">[ Log ] User Feedback</span>
                 <h3>🧾 User Feedback</h3>
@@ -1435,6 +1448,110 @@
         setTimeout(() => URL.revokeObjectURL(objectURL), 10000);
     });
 
+    /* ── JPG TO PDF ── */
+    (function() {
+        const pdfFileInput   = document.getElementById('pdf-file-input');
+        const pdfPreview     = document.getElementById('pdf-preview');
+        const btnConvert     = document.getElementById('btn-convert-pdf');
+        const pdfResult      = document.getElementById('pdf-result');
+        const pdfStatus      = document.getElementById('pdf-status');
+        const pdfDownload    = document.getElementById('pdf-download-link');
+
+        let selectedFiles = [];
+
+        pdfFileInput.addEventListener('change', function() {
+            selectedFiles = Array.from(this.files);
+            pdfPreview.innerHTML = '';
+            if (selectedFiles.length === 0) { pdfPreview.style.display = 'none'; return; }
+            pdfPreview.style.display = 'flex';
+            selectedFiles.forEach(function(file) {
+                const url = URL.createObjectURL(file);
+                const img = document.createElement('img');
+                img.src = url;
+                img.style.cssText = 'height:60px; width:auto; border:1px solid #3a3a3a; object-fit:cover;';
+                pdfPreview.appendChild(img);
+            });
+            pdfResult.style.display = 'none';
+            pdfDownload.style.display = 'none';
+        });
+
+        btnConvert.addEventListener('click', function(e) {
+            addRipple(e);
+            if (selectedFiles.length === 0) {
+                pdfResult.style.display = 'block';
+                pdfStatus.textContent = '✘ Please select at least one image first!';
+                pdfDownload.style.display = 'none';
+                return;
+            }
+
+            pdfResult.style.display = 'block';
+            pdfStatus.textContent = '⏳ Converting... please wait.';
+            pdfDownload.style.display = 'none';
+
+            /* Load jsPDF from CDN then convert */
+            if (typeof window.jspdf === 'undefined') {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+                script.onload = function() { doConvert(); };
+                script.onerror = function() {
+                    pdfStatus.textContent = '✘ Failed to load converter. Check your internet connection.';
+                };
+                document.head.appendChild(script);
+            } else {
+                doConvert();
+            }
+        });
+
+        function doConvert() {
+            const { jsPDF } = window.jspdf;
+            let loaded = 0;
+            const images = [];
+
+            selectedFiles.forEach(function(file, i) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const img = new Image();
+                    img.onload = function() {
+                        images[i] = { data: ev.target.result, w: img.naturalWidth, h: img.naturalHeight };
+                        loaded++;
+                        if (loaded === selectedFiles.length) buildPDF(images);
+                    };
+                    img.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function buildPDF(images) {
+            try {
+                const { jsPDF } = window.jspdf;
+                const first = images[0];
+                const orient = first.w > first.h ? 'l' : 'p';
+                const pdf = new jsPDF({ orientation: orient, unit: 'px', format: [first.w, first.h] });
+
+                images.forEach(function(img, i) {
+                    if (i > 0) {
+                        const o = img.w > img.h ? 'l' : 'p';
+                        pdf.addPage([img.w, img.h], o);
+                    }
+                    pdf.addImage(img.data, 'JPEG', 0, 0, img.w, img.h);
+                });
+
+                const blob = pdf.output('blob');
+                const url  = URL.createObjectURL(blob);
+
+                pdfStatus.textContent = '✔ PDF ready! Click below to download.';
+                pdfDownload.href = url;
+                pdfDownload.download = 'joy-converted.pdf';
+                pdfDownload.style.display = 'inline-block';
+                setTimeout(() => URL.revokeObjectURL(url), 60000);
+            } catch(err) {
+                pdfStatus.textContent = '✘ Conversion failed. Try again with a different image.';
+                console.error(err);
+            }
+        }
+    })();
+
     /* ── CHATBOT ── */
     const bubble   = document.getElementById('joy-chat-bubble');
     const chatWin  = document.getElementById('joy-chat-window');
@@ -1471,6 +1588,11 @@
         /* How to use / upload / scan */
         if (q.match(/how (to use|do i use|does it work|to fix|do i fix)|upload|scan|step 1|get started|start/)) {
             return "To use JOY: (1) Click 'Choose File' to upload a screenshot of your error. (2) Click 'Scan Error'. JOY will read the error text and show you the fix automatically.";
+        }
+
+        /* JPG to PDF */
+        if (q.match(/jpg|jpeg|png|pdf|convert|image to pdf|jpg to pdf|png to pdf/)) {
+            return "JOY has a JPG to PDF converter! Go to the 'JPG to PDF' card in the left column. Select one or more images, then click 'Convert to PDF'. The PDF is created instantly in your browser and you can download it — no internet upload needed.";
         }
 
         /* Background remover */
